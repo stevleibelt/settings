@@ -65,18 +65,19 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+s+h split h
+bindsym $mod+b split h
 
 # split in vertical orientation
-bindsym $mod+s+v split v
+bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+Return fullscreen
 #bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mods layout stacking
-bindsym $mod+w layout tabbed
+#bindsym $mod+s layout stacking
+bindsym $mod+w layout stacked
+bindsym $mod+t layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
@@ -86,10 +87,10 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+bindsym $mod+p focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+c focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -104,8 +105,8 @@ bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
 # move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace 1:main
-bindsym $mod+Shift+2 move container to workspace 2:code
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
 bindsym $mod+Shift+4 move container to workspace 4
 bindsym $mod+Shift+5 move container to workspace 5
@@ -155,11 +156,11 @@ bar {
 }
 
 #default_orientation <horizontal|vertical|auto>
-default_orientation auto
+default_orientation vertical
 #workspace_layout <default|stacking|tabbed>
-workspace_layout tabbed
+workspace_layout default
 #new_window <normal|1pixel|none|pixel>
-new_window none
+new_window 1pixel
 #new_float <normal|1pixel|none|pixel>
 new_float 1pixel
 
@@ -167,3 +168,6 @@ new_float 1pixel
 
 #assign applications to workspace
 assign [class="Firefox"]  1
+assign [class="Thunderbird"]  1
+
+assign [class="Phpstorm"]  2
