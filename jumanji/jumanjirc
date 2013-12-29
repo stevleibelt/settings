@@ -1,0 +1,16 @@
+# search engines
+searchengine ddg https://duckduckgo.com/?q=%s
+searchengine wpde http://de.wipikedia.org/w/index.php?search=%s
+searchengine wpen http://en.wipikedia.org/w/index.php?search=%s
+# settings
+#set homepage http://www.ccc.de
+set auto_save 60
+set single_instance true
+# proxy
+#set proxy localhost:8118
+# look and feel
+#set font monospace normal 9
+#set stylesheet file: ///home/user/path/to/style.css
+#script ~/.config/jumanji/scripts/hinting.js
+set download_dir ~/temp/download
+set download_command urxvt -e sh -c "wget --load-cookies ~/.config/jumanji/cookies '%s' -O '%s'";
