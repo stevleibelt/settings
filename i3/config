@@ -154,7 +154,7 @@ bindsym $mod+r mode "resize"
 # http://i3-wm.org/docs/userguide.html#_configuring_i3bar
 bar {
     status_command i3status
-    output LVDS1
+    #output LVDS1
     tray_output none
 }
 
