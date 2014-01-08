@@ -159,7 +159,7 @@ bar {
 }
 
 #default_orientation <horizontal|vertical|auto>
-default_orientation horizontal
+default_orientation vertical
 #workspace_layout <default|stacking|tabbed>
 workspace_layout default
 #new_window <normal|1pixel|none|pixel>
