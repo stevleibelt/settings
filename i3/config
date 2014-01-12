@@ -182,3 +182,8 @@ assign [class="Firefox"]  1
 assign [class="Thunderbird"]  1
 
 assign [class="Phpstorm"]  2
+
+# delaying urgency hint
+
+# http://i3wm.org/docs/userguide.html#_delaying_urgency_hint_reset_on_workspace_change
+force_display_urgency_hint 0
