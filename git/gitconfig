@@ -26,7 +26,7 @@
     untracked   = red
 
 [core]
-    exludesfiles    = ~/.git/gitignore.global
+    exludesfiles    = ~/.gitignore.global
     whitespaces     = trailing-space, space-before-tab
     pager           = less -RSX
     edit            = vim
@@ -55,7 +55,7 @@
     # 'matching': push all matching branches (default)
     # 'upstream' : push current branch to whereever it is pointing
     # 'current' : push current branch
-    default = upstream
+    #default = upstream
 
 [pull]
     # be careful here
@@ -84,7 +84,7 @@
     #info
     track   = "!f() { ([ $# -eq 2 ] && ( echo \"Setting tracking for branch \" $1 \" -> \" $2;git branch --set-upstream $1 $2; ) || ( git for-each-ref --format=\"local: %(refname:short) <--sync--> remote: %(upstream:short)\" refs/heads && echo --Remotes && git remote -v)); }; f"
     ll      = "!f() { git lg origin/master..$1; }; f"
-    dd      dd    = "!f() { git df origin/master...$1; }; f"
+    dd    = "!f() { git df origin/master...$1; }; f"
 
     #branch
     new-from-master = checkout --no-track origin/master -b
@@ -93,7 +93,8 @@
     list-branches   = branch -avv
 
     #files
-    add-modified    = addm = !git-ls-files -m -z | xargs -0 git-add && git status
+    add-all         = add -A
+    add-modified    = !git-ls-files -m -z | xargs -0 git-add && git status
     add-new         = !git-ls-files -o --exclude-standard -z | xargs -0 git-add && git status
     delete-marked   = !git ls-files -d -z | xargs -0 git-rm && git status
 
