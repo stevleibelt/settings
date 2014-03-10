@@ -1,0 +1,11 @@
+#CTags
+.tags*
+
+#ides
+.idea
+*.sublime-*
+.DS_Store
+
+#files
+composer.lock
+phpunit.xml
