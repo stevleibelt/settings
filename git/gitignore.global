@@ -5,6 +5,7 @@
 .idea
 *.sublime-*
 .DS_Store
+*.swp
 
 #files
 composer.lock
