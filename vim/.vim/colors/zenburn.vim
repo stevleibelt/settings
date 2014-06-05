@@ -215,7 +215,7 @@ hi Delimiter       guifg=#8f8f8f
 hi DiffAdd         guifg=#709080 guibg=#313c36 gui=bold
 hi DiffChange      guibg=#333333
 hi DiffDelete      guifg=#333333 guibg=#464646
-hi DiffText        guifg=#ecbcbc guibg=#41363c gui=bold
+hi DiffText        guifg=#ec3333 guibg=#41363c gui=bold
 hi Directory       guifg=#9fafaf gui=bold
 hi ErrorMsg        guifg=#80d4aa guibg=#2f2f2f gui=bold
 hi Exception       guifg=#c3bf9f gui=bold
