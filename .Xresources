@@ -1,0 +1,5 @@
+#http://lukas.zapletalovi.com/2013/07/hidden-gems-of-xterm.html
+#https://wiki.archlinux.org/index.php/Xterm#Resource_file_settings
+xterm*locale: true
+
+[[ -f ~/config/sh/color ]] && xrdb -merge ~/config/sh/color
