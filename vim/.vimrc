@@ -15,5 +15,9 @@ set showmode
 set t_Co=256
 colorscheme zenburn
 
+if &diff
+    colorscheme zenburn
+endif
+
 autocmd FileType php setlocal makeprg=zca\ %<.php
 autocmd FileType php setlocal errorformat=%f(line\ %l):\ %m
