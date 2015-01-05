@@ -9,11 +9,6 @@
 "   http://spf13.com/post/the-15-best-vim-plugins
 " ================
 
-" configure vundle
-set nocompatible
-filetype off
-
-set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " start of plugin section

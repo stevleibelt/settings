@@ -1,4 +1,9 @@
-" vundle
+" configure vundle
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+
+" source vundle
 source ~/.vim/vundle.vim
 
 " automatically detect file types
