@@ -1,3 +1,9 @@
+" vundle
+source ~/.vim/vundle.vim
+
+" automatically detect file types
+filetype plugin indent on
+
 set smartindent
 set expandtab
 set tabstop=4
