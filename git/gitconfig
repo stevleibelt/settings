@@ -87,10 +87,11 @@
     dd    = "!f() { git df origin/master...$1; }; f"
 
     #branch
-    new-from-master = checkout --no-track origin/master -b
-    clean-merged    = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
-    serve-local     = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
-    list-branches   = branch -avv
+    branch-new-from-master      = checkout --no-track origin/master -b
+    branch-clean-merged         = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
+    branch-serve-local          = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+    branch-list-branches        = branch -avv
+    branch-list-remote-branches = ls-remote --heads origin
 
     #files
     add-all         = add -A
