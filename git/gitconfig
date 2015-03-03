@@ -102,5 +102,11 @@
     #unknown :->
     lint = ! git status --porcelain | /bin/grep -e '^.\\(M\\|?\\).*\\.php$' | awk '{print $2}' | xargs -L 1 php -l
 
+    #stash
+    unstash = stash pop
+
+    #push
+    push-to-master  = git push -u origin maste
+
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
