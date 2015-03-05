@@ -106,7 +106,7 @@
     unstash = stash pop
 
     #push
-    push-to-master  = git push -u origin maste
+    push-to-master  = push -u origin master
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
