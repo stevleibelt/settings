@@ -81,6 +81,7 @@
 
     #cancel
     amend   = commit --amend
+    unmerge = reset --merge ORIG_HEAD
     unadd   = reset HEAD --
     undo    = reset --soft HEAD^
     unstage = reset HEAD --
