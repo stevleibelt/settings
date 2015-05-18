@@ -32,3 +32,9 @@ endif
 
 autocmd FileType php setlocal makeprg=zca\ %<.php
 autocmd FileType php setlocal errorformat=%f(line\ %l):\ %m
+
+" #links
+"
+" * https://github.com/pbrisbin/vim-config
+" * https://github.com/bstaletic/dotfiles/blob/master/.vimrc
+" * https://github.com/zendeavor/dotvim/blob/sandbag/vimrc
