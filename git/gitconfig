@@ -113,5 +113,9 @@
     #push
     push-to-master  = push -u origin master
 
+    #upstream
+    upstream-master-merge   = merge upstream/master
+    upstream-master-rebase  = rebase upstream/master
+
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
