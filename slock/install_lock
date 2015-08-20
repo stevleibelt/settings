@@ -1,4 +1,6 @@
 #!/bin/bash
+# @author stev leibelt <artodeto@bazzline.net>
+# @since 2015-08-20
 
 if [ -f /usr/bin/slock ]; then
     if [ -f /usr/bin/lock ]; then
