@@ -2,13 +2,15 @@
 # @author stev leibelt <artodeto@bazzline.net>
 # @since 2015-08-20
 
+PATH_TO_INSTALL_LOCK='/usr/local/bin/lock'
+
 if [ -f /usr/bin/slock ]; then
-    if [ -f /usr/bin/lock ]; then
+    if [ -f $PATH_TO_INSTALL_LOCK ]; then
         echo 'lock already installed'
         exit 1
     else
         SCRIPT_PATH=$(cd $(dirname "${BASH_SOURCE[0]}"); pwd)
-        sudo ln -s $SCRIPT_PATH/lock /usr/bin/lock
+        sudo ln -s $SCRIPT_PATH/lock $PATH_TO_INSTALL_LOCK
     fi
 else
     echo 'you have to install slock first'

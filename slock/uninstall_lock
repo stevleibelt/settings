@@ -2,11 +2,13 @@
 # @author stev leibelt <artodeto@bazzline.net>
 # @since 2015-08-20
 
-if [ -f /usr/bin/lock ]; then
-    if [ -h /usr/bin/lock ]; then
-        sudo rm /usr/bin/lock
+PATH_TO_LOCK='/usr/local/bin/lock'
+
+if [ -f $PATH_TO_LOCK ]; then
+    if [ -h $PATH_TO_LOCK ]; then
+        sudo rm $PATH_TO_LOCK
     else
-        echo '/usr/bin/lock is not the expected softlink'
+        echo $PATH_TO_LOCK' is not the expected softlink'
         exit 1
     fi
 else
