@@ -1,4 +1,8 @@
 #!/bin/bash
+# @author jakobm
+# @since 2011-03-13 13:23:15
+# @see: https://bbs.archlinux.org/viewtopic.php?pid=903057#p903057
+
 ( slock && xset dpms 600 600 600 ) &
 xset dpms 0 0 2
 xset dpms force off
