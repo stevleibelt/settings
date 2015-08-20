@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [ -f /usr/bin/lock ]; then
+    if [ -h /usr/bin/lock ]; then
+        sudo rm /usr/bin/lock
+    else
+        echo '/usr/bin/lock is not the expected softlink'
+        exit 1
+    fi
+else
+    echo 'lock is not installed'
+    exit 1
+fi

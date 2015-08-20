@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -f /usr/bin/slock ]; then
+    if [ -f /usr/bin/lock ]; then
+        echo 'lock already installed'
+        exit 1
+    else
+        SCRIPT_PATH=$(cd $(dirname "${BASH_SOURCE[0]}"); pwd)
+        sudo ln -s $SCRIPT_PATH/lock /usr/bin/lock
+    fi
+else
+    echo 'you have to install slock first'
+    exit 1
+fi
