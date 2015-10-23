@@ -13,8 +13,12 @@ call vundle#begin()
 
 " start of plugin section
 " ==== general
-Plugin 'gmarik/Vundle.vim'  " vundle manage vundle
-Bundle 'Syntastic'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'szw/vim-tags'
+Plugin 'scrooloose/nerdtree'
+" Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-markdown'
 " ==== javascript
 Bundle 'pangloss/vim-javascript'
