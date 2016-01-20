@@ -108,6 +108,9 @@
     #unknown :->
     lint = ! git status --porcelain | /bin/grep -e '^.\\(M\\|?\\).*\\.php$' | awk '{print $2}' | xargs -L 1 php -l
 
+    #remove local changes
+    remote-local-changes = clean -f -d
+
     #stash
     unstash = stash pop
 
