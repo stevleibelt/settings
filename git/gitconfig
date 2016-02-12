@@ -68,8 +68,6 @@
     #rebase = true
 
 [alias]
-    tagDates    = git log --tags --simplify-by-decoration --pretty="format:%ai %d"
-
     #log
     log-history = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
     log-local   = !git oneline ORIG_HEAD.. --stat --no-merges
@@ -120,6 +118,10 @@
     #upstream
     upstream-master-merge   = merge upstream/master
     upstream-master-rebase  = rebase upstream/master
+
+    #tags
+    show-newest-version-tag     = !git tag -l | sort -V | tail -n1
+    show-newest-version-tags    = !git tag -l | sort -V
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
