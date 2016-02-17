@@ -98,6 +98,8 @@
     branch-serve-local          = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
     branch-list-branches        = branch -avv
     branch-list-remote-branches = ls-remote --heads origin
+    branch-list-not-merged      = branch --no-merged
+    branch-list-merged          = branch --merged
 
     #files
     add-all         = add -A
