@@ -87,6 +87,9 @@
     undo    = reset --soft HEAD^
     unstage = reset HEAD --
 
+    #general
+    list-curren-checkout        = describe --all
+
     #info
     track   = "!f() { ([ $# -eq 2 ] && ( echo \"Setting tracking for branch \" $1 \" -> \" $2;git branch --set-upstream $1 $2; ) || ( git for-each-ref --format=\"local: %(refname:short) <--sync--> remote: %(upstream:short)\" refs/heads && echo --Remotes && git remote -v)); }; f"
     ll      = "!f() { git lg origin/master..$1; }; f"
@@ -95,11 +98,14 @@
     #branch
     branch-new-from-master      = checkout --no-track origin/master -b
     branch-clean-merged         = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
-    branch-serve-local          = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
-    branch-list-branches        = branch -avv
-    branch-list-remote-branches = ls-remote --heads origin
-    branch-list-not-merged      = branch --no-merged
-    branch-list-merged          = branch --merged
+    branch-serve-local                      = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+    branch-list-branches                    = branch -avv
+    branch-list-remote-branches             = ls-remote --heads origin
+    branch-list-not-merged                  = branch --no-merged
+    branch-list-merged                      = branch --merged
+    #@see: http://stevenharman.net/git-clean-delete-already-merged-branches
+    list-already-merged-local-branches      = git branch --merged origin/master | grep -v 'master'
+    delete-already-merged-local-branches    = git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
 
     #files
     add-all         = add -A
@@ -124,8 +130,8 @@
     upstream-master-rebase  = rebase upstream/master
 
     #tags
-    show-newest-version-tag     = !git tag -l | sort -V | tail -n1
-    show-newest-version-tags    = !git tag -l | sort -V
+    list-newest-version-tag     = !git tag -l | sort -V | tail -n1
+    list-newest-version-tags    = !git tag -l | sort -V
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
