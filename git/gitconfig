@@ -124,7 +124,7 @@
 
     #push
     push-to-current-head  = push -u origin HEAD
-    push-to-master  = push -u origin master
+    #push-to-master  = push -u origin master
 
     #upstream
     upstream-master-merge   = merge upstream/master
