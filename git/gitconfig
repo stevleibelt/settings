@@ -79,6 +79,7 @@
     changes     = diff --name-status
     diff-cached = diff --cached
     diff-status = diff --stat
+    duff        = diff  #praise to good of simpsons
 
     #cancel
     amend   = commit --amend
