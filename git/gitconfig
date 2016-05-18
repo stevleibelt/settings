@@ -41,7 +41,7 @@
 
 [merge]
     conflictStyle   = diff3
-	tool = k3diff
+	tool = meld
 
 [mergetool]
     #todo
