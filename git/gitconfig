@@ -69,11 +69,11 @@
 
 [alias]
     #log
-    log-head    = log | head
-    log-history = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
+    log-head    = !git log | head
+    log-history = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
     log-local   = !git oneline ORIG_HEAD.. --stat --no-merges
-    log-oneline = log --pretty=oneline --abbrev-commit --graph
-    log-tail    = log | tail
+    log-oneline = !git log --pretty=oneline --abbrev-commit --graph
+    log-tail    = !git log | tail
 
     #diff
     show-changes        = diff --name-status
