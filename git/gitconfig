@@ -76,10 +76,10 @@
     log-tail    = log | tail
 
     #diff
-    changes     = diff --name-status
-    diff-cached = diff --cached
-    diff-status = diff --stat
-    duff        = diff  #praise to good of simpsons
+    show-changes        = diff --name-status
+    show-diff-in-cached = diff --cached
+    show-diff-status    = diff --stat
+    duff                = diff  #praise to good of simpsons
 
     #cancel
     amend   = commit --amend
@@ -93,12 +93,12 @@
 
     #info
     track   = "!f() { ([ $# -eq 2 ] && ( echo \"Setting tracking for branch \" $1 \" -> \" $2;git branch --set-upstream $1 $2; ) || ( git for-each-ref --format=\"local: %(refname:short) <--sync--> remote: %(upstream:short)\" refs/heads && echo --Remotes && git remote -v)); }; f"
-    ll      = "!f() { git lg origin/master..$1; }; f"
+    ll      = "!f() { git log origin/master..$1; }; f"
     dd    = "!f() { git df origin/master...$1; }; f"
 
     #branch
-    branch-new-from-master      = checkout --no-track origin/master -b
-    branch-clean-merged         = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
+    branch-new-from-master                  = checkout --no-track origin/master -b
+    branch-clean-merged                     = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
     branch-serve-local                      = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
     branch-list-branches                    = branch -avv
     branch-list-remote-branches             = ls-remote --heads origin
@@ -133,7 +133,7 @@
 
     #tags
     list-newest-version-tag     = !git tag -l | sort -V | tail -n1
-    list-newest-version-tags    = !git tag -l | sort -V
+    list-newest-version-tags    = !git tag -l | sort -V | tail
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
