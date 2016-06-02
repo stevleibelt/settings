@@ -128,8 +128,8 @@
     #push-to-master  = push -u origin master
 
     #upstream
-    upstream-master-merge   = merge upstream/master
-    upstream-master-rebase  = rebase upstream/master
+    merge-with-the-upstream-master  = merge upstream/master
+    rebase-with-the-upstream-master = rebase upstream/master
 
     #tags
     list-newest-version-tag     = !git tag -l | sort -V | tail -n1
