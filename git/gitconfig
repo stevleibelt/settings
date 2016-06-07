@@ -90,7 +90,7 @@
     unstage = reset HEAD --
 
     #general
-    list-curren-checkout        = describe --all
+    show-current-checkout        = describe --all
 
     #info
     track   = "!f() { ([ $# -eq 2 ] && ( echo \"Setting tracking for branch \" $1 \" -> \" $2;git branch --set-upstream $1 $2; ) || ( git for-each-ref --format=\"local: %(refname:short) <--sync--> remote: %(upstream:short)\" refs/heads && echo --Remotes && git remote -v)); }; f"
@@ -106,8 +106,9 @@
     branch-list-not-merged                  = branch --no-merged
     branch-list-merged                      = branch --merged
     #@see: http://stevenharman.net/git-clean-delete-already-merged-branches
-    list-already-merged-local-branches      = git branch --merged origin/master | grep -v 'master'
+    show-already-merged-local-branches      = git branch --merged origin/master | grep -v 'master'
     delete-already-merged-local-branches    = git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
+    show-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
 
     #files
     add-all         = add -A
@@ -133,8 +134,8 @@
     rebase-with-the-upstream-master = rebase upstream/master
 
     #tags
-    list-newest-version-tag     = !git tag -l | sort -V | tail -n1
-    list-newest-version-tags    = !git tag -l | sort -V | tail
+    show-newest-version-tag     = !git tag -l | sort -V | tail -n1
+    show-newest-version-tags    = !git tag -l | sort -V | tail
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
