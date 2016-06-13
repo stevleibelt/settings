@@ -25,8 +25,9 @@ Bundle 'pangloss/vim-javascript'
 Bundle 'elzr/vim-json'
 " ==== php
 " Bundle 'spf13/PIV'
-Bundle 'php.vim'
-Bundle 'arnaud-lb/vim-php-namespace'
+Bundle 'syntastic'
+" Bundle 'php.vim'
+" Bundle 'arnaud-lb/vim-php-namespace'
 " end of plugin section
 
 call vundle#end()
