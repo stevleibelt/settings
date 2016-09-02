@@ -129,6 +129,9 @@
     push-to-current-head  = push -u origin HEAD
     #push-to-master  = push -u origin master
 
+    #pull
+    pull-from-current-head  = pull origin HEAD
+
     #upstream
     merge-with-the-upstream-master  = merge upstream/master
     rebase-with-the-upstream-master = rebase upstream/master
