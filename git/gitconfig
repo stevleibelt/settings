@@ -130,7 +130,7 @@
     #push-to-master  = push -u origin master
 
     #pull
-    pull-from-current-head  = pull origin HEAD
+    pull-from-current-head  = pull origin --no-ff
 
     #upstream
     merge-with-the-upstream-master  = merge upstream/master
