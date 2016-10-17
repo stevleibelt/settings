@@ -109,6 +109,8 @@
     show-already-merged-local-branches      = git branch --merged origin/master | grep -v 'master'
     delete-already-merged-local-branches    = git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
     show-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
+    search-term-in-branch-list              = "!f() { git branch -a | grep -i $1; }; f"
+    create-new-branch-from-origin           = "!f() { git checkout -b $1 origin/$1; }; f"
 
     #files
     add-all         = add -A
@@ -126,7 +128,8 @@
     unstash = stash pop
 
     #push
-    push-to-current-head  = push -u origin HEAD
+    #push-to-current-head  = push -u origin HEAD
+    push-to-current-head  = push origin
     #push-to-master  = push -u origin master
 
     #pull
