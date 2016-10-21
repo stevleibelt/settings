@@ -133,15 +133,16 @@
     #push-to-master  = push -u origin master
 
     #pull
-    pull-from-current-head  = pull origin --no-ff
+    #pull-from-current-head  = pull origin --no-ff
+    pull-from-current-head  = "!f() { CURRENT_BRANCH_NAME=$(git list-current-branch); git pull origin ${CURRENT_BRANCH_NAME}; }; f"
 
     #upstream
     merge-with-the-upstream-master  = merge upstream/master
     rebase-with-the-upstream-master = rebase upstream/master
 
     #tags
-    show-newest-version-tag     = !git tag -l | sort -V | tail -n1
-    show-newest-version-tags    = !git tag -l | sort -V | tail
+    list-newest-version-tag     = !git tag -l | sort -V | tail -n1
+    list-newest-version-tags    = !git tag -l | sort -V | tail
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
