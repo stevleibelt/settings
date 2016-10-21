@@ -70,17 +70,20 @@
 [alias]
     #log
     log-head                    = !git log | head
+    #@todo find better naming - figure out what it dues
     log-history                 = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
-    log-local                   = !git oneline ORIG_HEAD.. --stat --no-merges
+    #@todo find better naming - figure out what it dues
+    log-local                   = !git log-oneline ORIG_HEAD.. --stat --no-merges
+    #@todo find better naming - figure out what it dues
     log-oneline                 = !git log --pretty=oneline --abbrev-commit --graph
     log-tail                    = !git log | tail
-    show-latest-commit-message  = !git log | head | grep '^  '
+    list-latest-commit-message  = !git log | head | grep '^  '
 
     #diff
-    show-changes        = diff --name-status
-    show-diff-in-cached = diff --cached
-    show-diff-status    = diff --stat
-    duff                = diff  #praise to good of simpsons
+    show-changes            = diff --name-status
+    show-changes-in-cached = diff --cached
+    show-changed-status    = diff --stat
+    duff                    = diff  #praise to good of simpsons
 
     #cancel
     amend   = commit --amend
@@ -93,33 +96,37 @@
     show-current-checkout        = describe --all
 
     #info
+    #@todo find better naming
     track   = "!f() { ([ $# -eq 2 ] && ( echo \"Setting tracking for branch \" $1 \" -> \" $2;git branch --set-upstream $1 $2; ) || ( git for-each-ref --format=\"local: %(refname:short) <--sync--> remote: %(upstream:short)\" refs/heads && echo --Remotes && git remote -v)); }; f"
-    ll      = "!f() { git log origin/master..$1; }; f"
-    dd    = "!f() { git df origin/master...$1; }; f"
 
     #branch
+    #@todo find better naming - figure out what it dues
     branch-serve-local                      = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
     create-new-branch-from-master           = checkout --no-track origin/master -b
     create-new-branch-from-origin           = "!f() { git checkout -b $1 origin/$1; git pull origin $1; }; f"
     delete-branches-merged-into-master      = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
     delete-already-merged-local-branches    = git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
-    list-already-merged-local-branches      = git branch --merged origin/master | grep -v 'master'
-    list-branches-in-detail                 = branch -avv
+    list-all-already-merged-local-branches  = git branch --merged origin/master | grep -v 'master'
+    list-all-branches-in-detail             = branch -avv
     list-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
+    list-local-branches                     = branch -l
     list-merged-branches                    = branch --merged
     list-not-merged-branches                = branch --no-merged
-    list-remote-branches                    = ls-remote --heads origin
+    list-remote-branches                    = branch -r
+    list-remote-branches-in-detail          = ls-remote --heads origin
     #@see: http://stevenharman.net/git-clean-delete-already-merged-branches
     search-term-in-branch-list              = "!f() { git branch -a | grep -i $1; }; f"
 
     #files
-    add-all         = add -A
-    add-modified    = !git-ls-files -m -z | xargs -0 git-add && git status
-    add-new         = !git-ls-files -o --exclude-standard -z | xargs -0 git-add && git status
-    delete-marked   = !git ls-files -d -z | xargs -0 git-rm && git status
+    #git add .
+    add-all-files           = add -A
+    add-all-modified-files  = !git-ls-files -m -z | xargs -0 git-add && git status
+    add-all-new-files       = !git-ls-files -o --exclude-standard -z | xargs -0 git-add && git status
+    #@todo find better naming
+    delete-all-marked-files = !git ls-files -d -z | xargs -0 git-rm && git status
 
     #unknown :->
-    lint = ! git status --porcelain | /bin/grep -e '^.\\(M\\|?\\).*\\.php$' | awk '{print $2}' | xargs -L 1 php -l
+    lint-uncommited-php-files   = ! git status --porcelain | /bin/grep -e '^.\\(M\\|?\\).*\\.php$' | awk '{print $2}' | xargs -L 1 php -l
 
     #remove local changes
     remote-local-changes = clean -f -d
