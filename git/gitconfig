@@ -102,11 +102,11 @@
     #branch
     #@todo find better naming - figure out what it dues
     branch-serve-local                      = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
-    create-new-branch-from-master           = checkout --no-track origin/master -b
-    create-new-branch-from-origin           = "!f() { git checkout -b $1 origin/$1; git pull origin $1; }; f"
-    #delete-branches-merged-into-master      = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
-    #delete-already-merged-local-branches    = !git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
-    #list-all-already-merged-local-branches  = !git branch --merged origin/master | grep -v 'master'
+    create--branch-from-master              = checkout --no-track origin/master -b
+    create--branch-from-origin              = "!f() { git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
+    #delete-branches-merged-into-master     = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
+    #delete-already-merged-local-branches   = !git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
+    #list-all-already-merged-local-branches = !git branch --merged origin/master | grep -v 'master'
     list-all-branches-in-detail             = branch -avv
     list-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
     list-local-branches                     = branch -l
