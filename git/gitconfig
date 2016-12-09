@@ -149,8 +149,8 @@
     rebase-with-the-upstream-master = rebase upstream/master
 
     #tags
-    list-newest-version-tag     = !git tag -l | sort -V | tail -n1
-    list-newest-version-tags    = !git tag -l | sort -V | tail
+    list-latest-version-tag     = !git tag -l | sort -V | tail -n1
+    list-latest-version-tags    = !git tag -l | sort -V | tail
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
