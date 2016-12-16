@@ -76,6 +76,7 @@
     log-local                   = !git log-oneline ORIG_HEAD.. --stat --no-merges
     #@todo find better naming - figure out what it dues
     log-oneline                 = !git log --pretty=oneline --abbrev-commit --graph
+    display-tags-in-log         = !git log --oneline --decorate --graph
     log-tail                    = !git log | tail
     list-latest-commit-message  = !git log | head | grep '^  '
 
