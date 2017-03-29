@@ -18,7 +18,9 @@ set tabstop=4
 " set the tab width for auto indentation
 set shiftwidth=4
 " set limit for line width - working for vim >= 7.3
-set colorcolumn=120
+" this is evil! if you select content with the mouse, you will select the
+"   whitespaces also
+" set colorcolumn=120
 " end of indentation settings
 " begin of disable backups and .swp files
 set nobackup
