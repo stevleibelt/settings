@@ -152,6 +152,7 @@
     #tags
     list-latest-version-tag     = !git tag -l | sort -V | tail -n1
     list-latest-version-tags    = !git tag -l | sort -V | tail
+    merge-latest-version-tag    = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
 
 # links | sources
 # * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
