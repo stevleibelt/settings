@@ -145,6 +145,9 @@
     #pull-from-current-head  = pull origin --no-ff
     pull-from-current-head  = "!f() { CURRENT_BRANCH_NAME=$(git list-current-branch); git pull origin ${CURRENT_BRANCH_NAME}; }; f"
 
+    #r
+    reset-to-origin-master  = reset --hard origin/master
+
     #upstream
     merge-with-the-upstream-master  = merge upstream/master
     rebase-with-the-upstream-master = rebase upstream/master
