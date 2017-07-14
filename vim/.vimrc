@@ -10,7 +10,7 @@ source ~/.vim/vundle.vim
 filetype plugin indent on
 
 " begin of indentation settings
-set smartindent
+" set smartindent
 " treat all tabs as spaces
 set expandtab
 " set tab witdh

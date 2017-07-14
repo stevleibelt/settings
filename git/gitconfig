@@ -82,8 +82,9 @@
 
     #diff
     show-changes            = diff --name-status
-    show-changes-in-cached = diff --cached
-    show-changed-status    = diff --stat
+    show-changes-to-master  = diff --name-status ..master
+    show-changes-in-cached  = diff --cached
+    show-changed-status     = diff --stat
     duff                    = diff  #praise to good of simpsons
 
     #cancel
