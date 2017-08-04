@@ -109,14 +109,18 @@
     create--branch-from-origin              = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
     #delete-branches-merged-into-master     = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
     #delete-already-merged-local-branches   = !git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
+    #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
+    delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|develop' | xargs -n 1 git branch -d; }; f"
+    delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
     #list-all-already-merged-local-branches = !git branch --merged origin/master | grep -v 'master'
     list-all-branches-in-detail             = branch -avv
     list-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
     list-local-branches                     = branch -l
-    list-merged-branches                    = branch --merged
+    list-local-merged-branches              = branch --merged
     list-not-merged-branches                = branch --no-merged
     list-remote-branches                    = branch -r
     list-remote-branches-in-detail          = ls-remote --heads origin
+    list-remote-merged-branches             = branch -r --merged
     #@see: http://stevenharman.net/git-clean-delete-already-merged-branches
     search-term-in-branch-list              = "!f() { git branch -a | grep -i $1; }; f"
 
