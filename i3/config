@@ -180,6 +180,13 @@ client.focused_inactive #333333 #5f676a #ffffff #484e50
 client.unfocused        #333333 #222222 #888888 #292d2e
 client.urgent           #2f343a #900000 #ffffff #900000
 
+# @link: https://i3wm.org/docs/userguide.html#no_focus
+no_focus [class="Firefox"]
+no_focus [class="Thunderbird"]
+#no_focus [class="PhpStorm"] move container to workspace 2
+no_focus [class="PhpStorm"]
+no_focus [class="KeePassX"]
+
 #assign applications to workspace
 
 ##workspace 2
