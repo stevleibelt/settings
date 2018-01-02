@@ -1,3 +1,6 @@
+#@see
+# * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
+
 [user]
     name    = stevleibelt
     email   = stev@leibelt.de
@@ -68,53 +71,45 @@
     #rebase = true
 
 [alias]
-    #log
-    log-head                    = !git log | head
-    #@todo find better naming - figure out what it dues
-    log-history                 = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
-    #@todo find better naming - figure out what it dues
-    log-local                   = !git log-oneline ORIG_HEAD.. --stat --no-merges
-    #@todo find better naming - figure out what it dues
-    log-oneline                 = !git log --pretty=oneline --abbrev-commit --graph
-    display-tags-in-log         = !git log --oneline --decorate --graph
-    log-tail                    = !git log | tail
-    list-latest-commit-message  = !git log | head | grep '^  '
+    #alphabetically ordered and separated with empty lines
+    #@see: https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases
 
-    #diff
-    show-changes            = diff --name-status
-    show-changes-to-master  = diff --name-status ..master
-    show-changes-in-cached  = diff --cached
-    show-changed-status     = diff --stat
-    duff                    = diff  #praise to good of simpsons
+    #a
+    add-all-files           = add -A
+    add-all-modified-files  = !git-ls-files -m -z | xargs -0 git-add && git status
+    add-all-new-files       = !git-ls-files -o --exclude-standard -z | xargs -0 git-add && git status
 
-    #cancel
-    amend   = commit --amend
-    unmerge = reset --merge ORIG_HEAD
-    unadd   = reset HEAD --
-    undo    = reset --soft HEAD^
-    unstage = reset HEAD --
+    #b
+    #@todo find better naming - figure out what it does
+    branch-serve-local  = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
 
-    #general
-    show-current-checkout        = describe --all
+    #c
+    compress-git-objects    = gc --aggressive
 
-    #info
-    #@todo find better naming
-    track   = "!f() { ([ $# -eq 2 ] && ( echo \"Setting tracking for branch \" $1 \" -> \" $2;git branch --set-upstream $1 $2; ) || ( git for-each-ref --format=\"local: %(refname:short) <--sync--> remote: %(upstream:short)\" refs/heads && echo --Remotes && git remote -v)); }; f"
+    create-branch-from-current-branch      = "!f() { git checkout -b $1; git push --set-upstream origin $1; }; f"
+    create-branch-from-master              = "!f() { git checkout --no-track origin/master -b $1; git push --set-upstream origin $1; }; f"
+    create-branch-from-origin              = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
 
-    #branch
-    #@todo find better naming - figure out what it dues
-    branch-serve-local                      = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
-    create--branch-from-current-branch      = "!f() { git checkout -b $1; git push --set-upstream origin $1; }; f"
-    create--branch-from-master              = "!f() { git checkout --no-track origin/master -b $1; git push --set-upstream origin $1; }; f"
-    create--branch-from-origin              = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
-    #delete-branches-merged-into-master     = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
-    #delete-already-merged-local-branches   = !git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
+    #d
     #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
     delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|develop' | xargs -n 1 git branch -d; }; f"
     delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
+    #@todo find better naming
+    delete-all-marked-files = !git ls-files -d -z | xargs -0 git-rm && git status
+    #delete-already-merged-local-branches   = !git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
+    #delete-branches-merged-into-master     = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
+
+    display-tags-in-log         = !git log --oneline --decorate --graph
+
+    duff                    = diff  #praise to good of simpsons
+
+    #l
     #list-all-already-merged-local-branches = !git branch --merged origin/master | grep -v 'master'
     list-all-branches-in-detail             = branch -avv
     list-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
+    list-latest-commit-message  = !git log | head | grep '^  '
+    list-latest-version-tag     = !git tag -l | sort -V | tail -n1
+    list-latest-version-tags    = !git tag -l | sort -V | tail
     list-local-branches                     = branch -l
     list-local-merged-branches              = branch --merged
     list-not-merged-branches                = branch --no-merged
@@ -122,45 +117,52 @@
     list-remote-branches-in-detail          = ls-remote --heads origin
     list-remote-merged-branches             = branch -r --merged
     #@see: http://stevenharman.net/git-clean-delete-already-merged-branches
-    search-term-in-branch-list              = "!f() { git branch -a | grep -i $1; }; f"
-
-    #files
-    #git add .
-    add-all-files           = add -A
-    add-all-modified-files  = !git-ls-files -m -z | xargs -0 git-add && git status
-    add-all-new-files       = !git-ls-files -o --exclude-standard -z | xargs -0 git-add && git status
-    #@todo find better naming
-    delete-all-marked-files = !git ls-files -d -z | xargs -0 git-rm && git status
 
     #unknown :->
     lint-uncommited-php-files   = ! git status --porcelain | /bin/grep -e '^.\\(M\\|?\\).*\\.php$' | awk '{print $2}' | xargs -L 1 php -l
 
-    #remove local changes
-    remote-local-changes = clean -f -d
+    log-head                    = !git log | head
+    #@todo find better naming - figure out what it dues
+    log-history                 = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
+    #@todo find better naming - figure out what it dues
+    log-local                   = !git log-oneline ORIG_HEAD.. --stat --no-merges
+    #@todo find better naming - figure out what it dues
+    log-oneline                 = !git log --pretty=oneline --abbrev-commit --graph
+    log-tail                    = !git log | tail
 
-    #stash
-    unstash = stash pop
+    #m
+    merge-latest-version-tag    = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
+    merge-with-the-upstream-master  = merge upstream/master
 
-    #push
+    #p
+    #pull-from-current-head  = pull origin --no-ff
+    pull-from-current-head  = "!f() { CURRENT_BRANCH_NAME=$(git list-current-branch); git pull origin ${CURRENT_BRANCH_NAME}; }; f"
     #push-to-current-head  = push -u origin HEAD
     push-to-current-head  = push origin
     #push-to-master  = push -u origin master
 
-    #pull
-    #pull-from-current-head  = pull origin --no-ff
-    pull-from-current-head  = "!f() { CURRENT_BRANCH_NAME=$(git list-current-branch); git pull origin ${CURRENT_BRANCH_NAME}; }; f"
-
     #r
+    rebase-with-the-upstream-master = rebase upstream/master
+    remote-local-changes = clean -f -d
     reset-to-origin-master  = reset --hard origin/master
 
-    #upstream
-    merge-with-the-upstream-master  = merge upstream/master
-    rebase-with-the-upstream-master = rebase upstream/master
+    #s
+    search-term-in-branch-list              = "!f() { git branch -a | grep -i $1; }; f"
 
-    #tags
-    list-latest-version-tag     = !git tag -l | sort -V | tail -n1
-    list-latest-version-tags    = !git tag -l | sort -V | tail
-    merge-latest-version-tag    = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
+    show-changes            = diff --name-status
+    show-changes-to-master  = diff --name-status ..master
+    show-changes-in-cached  = diff --cached
+    show-changed-status     = diff --stat
+    show-current-checkout        = describe --all
 
-# links | sources
-# * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
+    #t
+    #@todo find better naming
+    track   = "!f() { ([ $# -eq 2 ] && ( echo \"Setting tracking for branch \" $1 \" -> \" $2;git branch --set-upstream $1 $2; ) || ( git for-each-ref --format=\"local: %(refname:short) <--sync--> remote: %(upstream:short)\" refs/heads && echo --Remotes && git remote -v)); }; f"
+
+    #u
+    unadd       = reset HEAD --
+    uncommit    = commit --amend
+    undo        = reset --soft HEAD^
+    unmerge     = reset --merge ORIG_HEAD
+    unstage     = reset HEAD --
+    unstash = stash pop
