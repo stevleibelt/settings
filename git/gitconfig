@@ -84,8 +84,6 @@
     branch-serve-local  = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
 
     #c
-    compress-git-objects    = gc --aggressive
-
     create-branch-from-current-branch      = "!f() { git checkout -b $1; git push --set-upstream origin $1; }; f"
     create-branch-from-master              = "!f() { git checkout --no-track origin/master -b $1; git push --set-upstream origin $1; }; f"
     create-branch-from-origin              = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
@@ -133,6 +131,9 @@
     #m
     merge-latest-version-tag    = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
     merge-with-the-upstream-master  = merge upstream/master
+
+    #o
+    optimize-git-objects    = gc --aggressive
 
     #p
     #pull-from-current-head  = pull origin --no-ff
