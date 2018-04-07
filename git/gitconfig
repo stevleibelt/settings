@@ -78,6 +78,7 @@
     add-all-files           = add -A
     add-all-modified-files  = !git-ls-files -m -z | xargs -0 git-add && git status
     add-all-new-files       = !git-ls-files -o --exclude-standard -z | xargs -0 git-add && git status
+    add-as-patch            = add --patch
 
     #b
     #@todo find better naming - figure out what it does
@@ -87,6 +88,7 @@
     create-branch-from-current-branch      = "!f() { git checkout -b $1; git push --set-upstream origin $1; }; f"
     create-branch-from-master              = "!f() { git checkout --no-track origin/master -b $1; git push --set-upstream origin $1; }; f"
     create-branch-from-origin              = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
+    checkout-as-patch                   = checkout -p
 
     #d
     #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
