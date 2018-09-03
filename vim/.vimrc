@@ -17,6 +17,8 @@ set expandtab
 set tabstop=4
 " set the tab width for auto indentation
 set shiftwidth=4
+" identify open and clse brace positions
+set showmatch
 " set limit for line width - working for vim >= 7.3
 " this is evil! if you select content with the mouse, you will select the
 "   whitespaces also
@@ -28,16 +30,26 @@ set nowritebackup
 set noswapfile
 " end of disable backups and .swp files
 set number
+" highlight th searched term
 set hlsearch
+" perform search while you are typing
+" set incsearch
 " begin of beeing case insensitive when searching
 set ignorecase
 set smartcase
 " end of beeing case insensitive when searching
+" sets the cursor position to the 4th row when scrolling up and down
+set scrolloff=4
+" display a permanent status bar at the bottom
+set laststatus=2
 set ruler
+" switch to the directory where the file is opened
+set autochdir
 " begin of wild menu configuration (used for tab command autocompletion)
 set wildmenu
 set wildmode=list:longest,full
 " end of wild menu configuration (used for tab command autocompletion)
+" spell checking for us english language
 set spelllang=en_us
 " useuznix as standart file type
 set ffs=unix,dos,mac
@@ -61,6 +73,7 @@ autocmd FileType php setlocal errorformat=%f(line\ %l):\ %m
 " * https://github.com/pbrisbin/vim-config
 " * https://github.com/bstaletic/dotfiles/blob/master/.vimrc
 " * https://github.com/zendeavor/dotvim/blob/sandbag/vimrc
+" * https://opensource.com/article/18/9/vi-editor-productivity-powerhouse
 
 " #plugins
 " http://ctags.sourceforge.net/
