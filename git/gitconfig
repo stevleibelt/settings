@@ -92,6 +92,7 @@
 
     #d
     diff-to-last-commit = diff HEAD~  #git show should also work
+    diff-to-origin-master = diff ..origin/master    #@see: https://opensource.com/article/19/2/git-terminology
     #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
     delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|develop' | xargs -n 1 git branch -d; }; f"
     delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
