@@ -74,20 +74,20 @@ then
 fi
 #eo i3
 
-#bo .Xressource
-echo ":: Do you want to setup .Xressource? (y|n - default is y)"
+#bo .Xresources
+echo ":: Do you want to setup .Xresources? (y|n - default is y)"
 read YES_OR_NO
 
 if [[ ${YES_OR_NO} != "n" ]];
 then
-    if [[ -f ~/.Xressource  ]]
+    if [[ -f ~/.Xresources  ]]
     then
-        echo "   Renaming ~/.Xressource to ~/.Xressource.${DATETIME}"
-        mv ~/.Xressource ~/.Xressource.${DATETIME}
+        echo "   Renaming ~/.Xresources to ~/.Xresources.${DATETIME}"
+        mv ~/.Xresources ~/.Xresources.${DATETIME}
     fi
 
-    echo "   Creating softlink for ~/.Xressource"
-    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/.Xressource ~/.Xressource
+    echo "   Creating softlink for ~/.Xresources"
+    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/.Xresources ~/.Xresources
 fi
 #eo .Xressource
 
