@@ -12,6 +12,8 @@ clear
 DATETIME=$(date +%y%m%d_+%T)
 PATH_OF_THE_CURRENT_SCRIPT=$(cd $(dirname "${BASH_SOURCE[0]}"); pwd)
 
+echo "${PATH_OF_THE_CURRENT_SCRIPT}"
+
 #bo gitconfig
 echo ":: Do you want to setup gitconfig? (y|n - default is y)"
 read YES_OR_NO
@@ -25,7 +27,7 @@ then
     fi
 
     echo "   Creating softlink for ~/.gitconfig"
-    ln -s ${PATH_TO_THE_BASH_PROFILE}/git/gitconfig ~/.gitconfig
+    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/git/gitconfig ~/.gitconfig
 fi
 #eo gitconfig
 
@@ -42,7 +44,7 @@ then
     fi
 
     echo "   Creating softlink for ~/.gitignore.global"
-    ln -s ${PATH_TO_THE_BASH_PROFILE}/git/gitignore.global ~/.gitignore.global
+    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/git/gitignore.global ~/.gitignore.global
 fi
 #eo gitconfig
 
@@ -59,7 +61,7 @@ then
     fi
 
     echo "   Creating softlink for ~/.i3"
-    ln -s ${PATH_TO_THE_BASH_PROFILE}/i3 ~/.i3
+    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/i3 ~/.i3
 
     if [[ -f .i3status.conf ]]
     then
@@ -67,7 +69,7 @@ then
         mv ~/.i3status.conf ~/.i3status.conf.${DATETIME}
 
         echo "   Creating new one from example configuration. You have to adapt it!"
-        cp ${PATH_TO_THE_BASH_PROFILE}/i3/exampleStatus.conf ~/.i3status.conf
+        cp ${PATH_OF_THE_CURRENT_SCRIPT}/i3/exampleStatus.conf ~/.i3status.conf
     fi
 fi
 #eo i3
@@ -85,7 +87,7 @@ then
     fi
 
     echo "   Creating softlink for ~/.Xressource"
-    ln -s ${PATH_TO_THE_BASH_PROFILE}/.Xressource ~/.Xressource
+    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/.Xressource ~/.Xressource
 fi
 #eo .Xressource
 
