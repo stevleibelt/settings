@@ -91,3 +91,29 @@ then
 fi
 #eo .Xressource
 
+#bo .vim
+echo ":: Do you want to setup .vim and .vimrc? (y|n - default is y)"
+read YES_OR_NO
+
+if [[ ${YES_OR_NO} != "n" ]];
+then
+    if [[ -f ~/.vimrc  ]]
+    then
+        echo "   Renaming ~/.vimrc to ~/.vimrc.${DATETIME}"
+        mv ~/.vimrc ~/.vimrc.${DATETIME}
+    fi
+
+    echo "   Creating softlink for ~/.vimrc"
+    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/vim/.vimrc ~/.vimrc
+
+    if [[ -d ~/.vim ]];
+    then
+        echo "   Renaming ~/.vim to ~/.vim.${DATETIME}"
+        mv ~/.vim ~/.vim.${DATETIME}
+    fi
+
+    echo "   Creating softlink for ~/.vim"
+    ln -s ${PATH_OF_THE_CURRENT_SCRIPT}/vim/.vim ~/.vim
+fi
+#eo .Xressource
+
