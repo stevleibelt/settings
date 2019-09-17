@@ -158,7 +158,8 @@
     show-changes-to-master  = diff --name-status ..master
     show-changes-in-cached  = diff --cached
     show-changed-status     = diff --stat
-    show-current-checkout        = describe --all
+    show-current-checkout   = describe --all
+    show-only-file-names    = "!f() { git show --pretty=\"\" --name-only ${1}; }; f"    #@see: https://stackoverflow.com/a/424142
 
     #t
     #@todo find better naming
