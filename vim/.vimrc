@@ -1,5 +1,6 @@
-" configure vundle
+" set compatibility mode off
 set nocompatible
+" configure vundle
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
