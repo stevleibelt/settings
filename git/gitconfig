@@ -43,6 +43,9 @@
 [diff "pdf"]
     textconv = pdfinfo
 
+[diff "xlsx"]
+    textconv = hexdump -v -C
+
 [grep]
     extendedRegexp  = true
 
