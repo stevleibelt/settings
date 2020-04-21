@@ -36,6 +36,13 @@
     #safecrlf       = true
     #autocrlf       = false
 
+#@see: https://superuser.com/a/706286
+[diff "bin"]
+    textconv = hexdump -v -C
+
+[diff "pdf"]
+    textconv = pdfinfo
+
 [grep]
     extendedRegexp  = true
 
