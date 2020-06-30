@@ -87,7 +87,7 @@ Function Prompt
   Write-Host " " -NoNewline
   #Write-Host $(Set-HomeDirectory("$pwd")) -ForegroundColor Yellow
   Write-Host $(Get-Location) -NoNewLine
-  Write-Host " " -NoNewline
+  Write-Host ">" -NoNewline
   Return " "
 }
 
@@ -103,6 +103,19 @@ Function Replace-GermanUmlauts ($string)
 }
 
 #s
+Function Search-ADUserByName ($name)
+{
+    If ($name.StartsWith("*") -eq $false) {
+        $name = $("*" + $name)
+    }
+
+    If ($name.EndsWith("*") -eq $false) {
+        $name = $($name + "*")
+    }
+
+    Get-ADUser -Filter {(Name -like $name)}
+}
+
 Function Show-Links($path)
 {
 	Get-Childitem $path | Where-Object {$_.LinkType} | Select-Object FullName,LinkType,Target
