@@ -22,6 +22,27 @@ $localConfigurationFilePath = $($configurationSourcePath + "\local.profile.ps1")
 #bo functions
 #@see: https://github.com/gummesson/kapow/blob/master/themes/bashlet.ps1
 
+#a
+Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded
+{
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $String
+    )
+
+
+    If ($String.StartsWith("*") -eq $false) {
+        $String = $("*" + $String)
+    }
+
+    If ($String.EndsWith("*") -eq $false) {
+        $String = $($String + "*")
+    }
+
+    Return $String
+}
+
 #g
 #@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
 Function Get-ADComputerClientList
@@ -72,8 +93,15 @@ Function Get-ListOfLocalOpenPorts
 
 #k
 #@see: https://github.com/mikemaccana/powershell-profile/blob/master/unix.ps1
-Function Kill-Process($name) {
-	Get-Process $name -ErrorAction SilentlyContinue | Stop-Process
+Function Kill-Process
+{
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $ProcessName
+    )
+
+	Get-Process $ProcessName-ErrorAction SilentlyContinue | Stop-Process
 }
 
 #p
@@ -81,14 +109,14 @@ Function Prompt
 {
     $promptColor = If ($isElevated) { "Red" } Else { "DarkGreen"}
 
-  Write-Host "$env:username" -NoNewline -ForegroundColor $promptColor
-  Write-Host "@" -NoNewline -ForegroundColor $promptColor
-  Write-Host "$env:computername" -NoNewline -ForegroundColor $promptColor
-  Write-Host " " -NoNewline
-  #Write-Host $(Set-HomeDirectory("$pwd")) -ForegroundColor Yellow
-  Write-Host $(Get-Location) -NoNewLine
-  Write-Host ">" -NoNewline
-  Return " "
+    Write-Host "$env:username" -NoNewline -ForegroundColor $promptColor
+    Write-Host "@" -NoNewline -ForegroundColor $promptColor
+    Write-Host "$env:computername" -NoNewline -ForegroundColor $promptColor
+    Write-Host " " -NoNewline
+    #Write-Host $(Set-HomeDirectory("$pwd")) -ForegroundColor Yellow
+    Write-Host $(Get-Location) -NoNewLine
+    Write-Host ">" -NoNewline
+    Return " "
 }
 
 #r
@@ -97,28 +125,53 @@ Function Reload-Profile
     . "$profile"
 }
 
-Function Replace-GermanUmlauts ($string)
+Function Replace-GermanUmlauts
 {
-    Return ($string.Replace('ä','ae').Replace('Ä','Ae').Replace('ö','oe').Replace('Ö','Oe').Replace('ü','ue').Replace('Ü','Ue'))
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $String
+    )
+
+    Return ($String.Replace('ä','ae').Replace('Ä','Ae').Replace('ö','oe').Replace('Ö','Oe').Replace('ü','ue').Replace('Ü','Ue'))
 }
 
 #s
-Function Search-ADUserByName ($name)
+Function Search-ADUserByName
 {
-    If ($name.StartsWith("*") -eq $false) {
-        $name = $("*" + $name)
-    }
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $Name
+    )
 
-    If ($name.EndsWith("*") -eq $false) {
-        $name = $($name + "*")
-    }
+    $Name = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($Name)
 
-    Get-ADUser -Filter {(Name -like $name)}
+    Get-ADUser -Filter {(Name -like $Name)}
 }
 
-Function Show-Links($path)
+Function Search-ProcessByName
 {
-	Get-Childitem $path | Where-Object {$_.LinkType} | Select-Object FullName,LinkType,Target
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $ProcessName
+    )
+
+    $ProcessName = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($ProcessName)
+
+    Get-Process | Where-Object { $_.ProcessName -like $ProcessName }
+}
+
+Function Show-Links
+{
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $directoryPath
+    )
+
+	Get-Childitem $directoryPath | Where-Object {$_.LinkType} | Select-Object FullName,LinkType,Target
 }
 #eo functions
 
@@ -126,5 +179,5 @@ Function Show-Links($path)
 #eo alias
 
 If (Test-Path $localConfigurationFilePath) {
-    .$localConfigurationFilePath
+    . $localConfigurationFilePath
 }
