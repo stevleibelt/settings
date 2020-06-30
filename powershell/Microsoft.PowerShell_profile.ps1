@@ -94,7 +94,7 @@ Function Prompt
 #r
 Function Reload-Profile
 {
-    .$profile
+    . "$profile"
 }
 
 Function Replace-GermanUmlauts ($string)
