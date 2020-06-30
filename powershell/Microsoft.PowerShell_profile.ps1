@@ -31,7 +31,6 @@ Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded
         $String
     )
 
-
     If ($String.StartsWith("*") -eq $false) {
         $String = $("*" + $String)
     }
@@ -47,7 +46,7 @@ Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded
 #@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
 Function Get-ADComputerClientList
 {
-    Get-ADComputer -Filter 'operatingsystem -notlike "*server*" -and enabled -eq "true"' `
+    Get-ADComputer -Filter { (OperatingSystem -notlike "*server*") -and (Enabled -eq $true) } `
     -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address |
     Sort-Object -Property Name |
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address
@@ -61,7 +60,7 @@ Function Get-ADComputerDCList
     #    515 -> domain computer
     #    516 -> domain controller writeable (server)
     #    521 -> domain controller readable (client)
-    Get-ADComputer -Filter '(primarygroupid -eq "516") -or (primarygroupid -eq "521")' `
+    Get-ADComputer -Filter { (PrimaryGroupId -eq 516) -or (PrimaryGroupId -eq 521) } `
     -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
     Sort-Object -Property Name |
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
@@ -70,7 +69,7 @@ Function Get-ADComputerDCList
 #@see: https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
 Function Get-ADComputerList
 {
-    Get-ADComputer -Filter 'enabled -eq "true"' `
+    Get-ADComputer -Filter { (Enabled -eq $true) } `
     -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
     Sort-Object -Property Name |
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
@@ -79,7 +78,7 @@ Function Get-ADComputerList
 #@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
 Function Get-ADComputerServerList
 {
-    Get-ADComputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' `
+    Get-ADComputer -Filter { (OperatingSystem -like "*server*") -and (Enabled -eq $true) } `
     -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
     Sort-Object -Property Name |
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
@@ -137,6 +136,22 @@ Function Replace-GermanUmlauts
 }
 
 #s
+Function Search-ADComputerList
+{
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]
+        $Name
+    )
+
+    $Name = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($Name)
+
+    Get-ADComputer -Filter { (Enabled -eq $true) -and (Name -like $Name) } `
+    -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
+    Sort-Object -Property Name |
+    Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
+}
+
 Function Search-ADUserByName
 {
     Param(
