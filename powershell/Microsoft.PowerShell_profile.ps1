@@ -21,6 +21,55 @@ $localConfigurationFilePath = $($configurationSourcePath + "\local.profile.ps1")
 
 #bo functions
 #@see: https://github.com/gummesson/kapow/blob/master/themes/bashlet.ps1
+
+#g
+#@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
+Function Get-ADComputerClientList
+{
+    Get-ADComputer -Filter 'operatingsystem -notlike "*server*" -and enabled -eq "true"' `
+    -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address |
+    Sort-Object -Property Name |
+    Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address
+}
+
+#@see: https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
+#@see: https://adsecurity.org/?p=873
+Function Get-ADComputerDCList
+{
+    #primary group id:
+    #    515 -> domain computer
+    #    516 -> domain controller writeable (server)
+    #    521 -> domain controller readable (client)
+    Get-ADComputer -Filter '(primarygroupid -eq "516") -or (primarygroupid -eq "521")' `
+    -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
+    Sort-Object -Property Name |
+    Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
+}
+
+#@see: https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
+Function Get-ADComputerList
+{
+    Get-ADComputer -Filter 'enabled -eq "true"' `
+    -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
+    Sort-Object -Property Name |
+    Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
+}
+
+#@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
+Function Get-ADComputerServerList
+{
+    Get-ADComputer -Filter 'operatingsystem -like "*server*" -and enabled -eq "true"' `
+    -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
+    Sort-Object -Property Name |
+    Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
+}
+
+#@see: https://sid-500.com/2020/05/23/video-powershell-cmdlets-as-a-replacement-for-ping-arp-traceroute-and-nmap/
+Function Get-ListOfLocalOpenPorts
+{
+    Get-NetTCPConnection -State Established,Listen | Sort-Object LocalPort
+}
+
 #k
 #@see: https://github.com/mikemaccana/powershell-profile/blob/master/unix.ps1
 Function Kill-Process($name) {
@@ -46,6 +95,11 @@ Function Prompt
 Function Reload-Profile
 {
     .$profile
+}
+
+Function Replace-GermanUmlauts ($string)
+{
+    Return ($string.Replace('ä','ae').Replace('Ä','Ae').Replace('ö','oe').Replace('Ö','Oe').Replace('ü','ue').Replace('Ü','Ue'))
 }
 
 #s
