@@ -26,9 +26,7 @@ $localConfigurationFilePath = $($configurationSourcePath + "\local.profile.ps1")
 Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded
 {
     Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $String
+        [Parameter(Mandatory=$true)] [String] $String
     )
 
     If ($String.StartsWith("*") -eq $false) {
@@ -95,12 +93,10 @@ Function Get-ListOfLocalOpenPorts
 Function Kill-Process
 {
     Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $ProcessName
+        [Parameter(Mandatory=$true)] [String] $ProcessName
     )
 
-	Get-Process $ProcessName-ErrorAction SilentlyContinue | Stop-Process
+    Get-Process $ProcessName-ErrorAction SilentlyContinue | Stop-Process
 }
 
 #p
@@ -127,9 +123,7 @@ Function Reload-Profile
 Function Replace-GermanUmlauts
 {
     Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $String
+        [Parameter(Mandatory=$true)] [String] $String
     )
 
     Return ($String.Replace('ä','ae').Replace('Ä','Ae').Replace('ö','oe').Replace('Ö','Oe').Replace('ü','ue').Replace('Ü','Ue'))
@@ -139,9 +133,7 @@ Function Replace-GermanUmlauts
 Function Search-ADComputerList
 {
     Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $Name
+        [Parameter(Mandatory=$true)] [String] $Name
     )
 
     $Name = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($Name)
@@ -155,9 +147,7 @@ Function Search-ADComputerList
 Function Search-ADUserByName
 {
     Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $Name
+        [Parameter(Mandatory=$true)] [String] $Name
     )
 
     $Name = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($Name)
@@ -165,12 +155,21 @@ Function Search-ADUserByName
     Get-ADUser -Filter {(Name -like $Name)}
 }
 
+Function Search-CommandByName
+{
+    Param(
+        [Parameter(Mandatory=$true)] [String] $CommandName
+    )
+
+    $CommandName = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($CommandName)
+
+    Get-Command -Verb Get -Noun $CommandName
+}
+
 Function Search-ProcessByName
 {
     Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $ProcessName
+        [Parameter(Mandatory=$true)] [String] $ProcessName
     )
 
     $ProcessName = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($ProcessName)
@@ -181,12 +180,10 @@ Function Search-ProcessByName
 Function Show-Links
 {
     Param(
-        [Parameter(Mandatory=$true)]
-        [String]
-        $directoryPath
+        [Parameter(Mandatory=$true)] [String] $directoryPath
     )
 
-	Get-Childitem $directoryPath | Where-Object {$_.LinkType} | Select-Object FullName,LinkType,Target
+    Get-Childitem $directoryPath | Where-Object {$_.LinkType} | Select-Object FullName,LinkType,Target
 }
 #eo functions
 
