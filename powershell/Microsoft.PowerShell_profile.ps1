@@ -99,6 +99,17 @@ Function Kill-Process
     Get-Process $ProcessName-ErrorAction SilentlyContinue | Stop-Process
 }
 
+#m
+Function Mirror-TerminalServerUserSession
+{
+    Param(
+        [Parameter(Mandatory=$true)] [String] $TerminalServerHostName,
+        [Parameter(Mandatory=$true)] [String] $SessionId
+    )
+
+    mstsc.exe /v:$TerminalServerHostName /shadow:$SessionId /control
+}
+
 #p
 Function Prompt
 {
