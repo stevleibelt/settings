@@ -82,6 +82,35 @@ Function Get-ADComputerServerList
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
 }
 
+Function Get-IsSoftwareInstalled
+{
+    Param(
+        [Parameter(Mandatory=$true)] [String] $SoftwareName
+    )
+
+    #regular way to check
+    $isInstalled = (Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where { $_.DisplayName -like "*$SoftwareName*"  }) -ne $null
+
+    #if we are running a 64bit windows, there is a place for 32bit software
+    if (-Not $isInstalled) {
+        #check if we are running 64 bit windows
+        if (Test-Path HKLM:SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall) {
+            $isInstalled = (Get-ItemProperty HKLM:SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Where { $_.DisplayName -like "*$SoftwareName*"  }) -ne $null
+        }
+    }
+
+    #there is one legacy place left
+    if (-Not $isInstalled) {
+        $isInstalled = (Get-WmiObject -Class Win32_Product | WHERE { $_.Name -like "*$ProcessName*"  })
+    }
+
+    if (-Not $isInstalled) {
+        Write-Host $("Software >>" + $SoftwareName + "<< is not installed.")
+    } Else {
+        Write-Host $("Software >>" + $SoftwareName + "<< is installed.")
+    }
+}
+
 #@see: https://sid-500.com/2020/05/23/video-powershell-cmdlets-as-a-replacement-for-ping-arp-traceroute-and-nmap/
 Function Get-ListOfLocalOpenPorts
 {
