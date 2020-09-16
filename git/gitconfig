@@ -76,6 +76,7 @@
     #default = upstream
 
 [pull]
+	rebase = false
     # be careful here
     # do not pull --no-rebase over a local line containing a true merge
     #rebase = true
