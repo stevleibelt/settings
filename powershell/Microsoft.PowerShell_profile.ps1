@@ -217,6 +217,26 @@ Function Search-ProcessByName
     Get-Process | Where-Object { $_.ProcessName -like $ProcessName }
 }
 
+Function Show-IpAndMacAddressFromComputer
+{
+    #@see: https://gallery.technet.microsoft.com/scriptcenter/How-do-I-get-MAC-and-IP-46382777
+    Param (
+        [Parameter(Mandatory=$true,ValueFromPipeline=$true,Position=0)] [string[]]$ListOfComputerName
+    )
+
+    ForEach ($ComputerName in $ListOfComputerName) {
+        If (Test-Connection -Cn $ComputerName -quiet) {
+            $IpAddressToString = ([System.Net.Dns]::GetHostByName($ComputerName).AddressList[0]).IpAddressToString
+            $IPMAC = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -ComputerName $ComputerName
+            $MacAddress = ($IPMAC | where { $_.IpAddress -eq $IpAddressToString }).MACAddress
+ 
+            Write-Host ($ComputerName + ": IP Address >>" + $IpAddressToString + "<<, MAC Address >>" + $MacAddress + "<<.")
+        } Else {
+            Write-Host ("Maschine is offline >>" + $ComputerName + "<<.") -BackgroundColor Red
+        }
+    }
+}
+
 Function Show-Links
 {
     Param(
@@ -230,6 +250,8 @@ Function Show-Links
 #bo alias
 #eo alias
 
+#bo load local/confidential code
 If (Test-Path $localConfigurationFilePath) {
     . $localConfigurationFilePath
 }
+#eo load local/confidential code
