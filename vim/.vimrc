@@ -1,5 +1,14 @@
 " set compatibility mode off
 set nocompatible
+
+" add mapping of CTRL+h and CTRL+l to move between windows
+" @see: https://stackoverflow.com/a/16700959
+" @see: https://www.unix.com/unix-for-advanced-and-expert-users/165129-vimdiff-jump-other-file-switch-windows.html
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-H> <C-W>h
+nnoremap <C-L> <C-W>l
+
 " configure vundle
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
