@@ -158,7 +158,7 @@
         { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+shift+d" },
 
         // Close Tab
-        {"command" : "closeTab", "keys" : "ctrl+w"},
+        {"command" : "closeTab", "keys" : "alt+ctrl+w"},    //yep, closing is more complicated since `ctrl+w` is used in vimdiff too
         // Open New Tab
         {"command":"newTab", "keys": "ctrl+t"},
 
