@@ -245,6 +245,20 @@ Function Show-Links
 
     Get-Childitem $directoryPath | Where-Object {$_.LinkType} | Select-Object FullName,LinkType,Target
 }
+
+#t
+Function Tail-Logs
+{
+    Param(
+        [Parameter(Mandatory=$false)] [String] $pathToTheLogs = "C:\Windows\logs\*\"
+    )
+
+        if (-Not $pathToTheLogs.endsWith(".log")) {
+            $pathToTheLogs += "*.log"
+        }
+
+        Get-Content $pathToTheLogs -tail 10 -wait
+}
 #eo functions
 
 #bo alias
