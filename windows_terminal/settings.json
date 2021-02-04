@@ -61,18 +61,20 @@
                 //launch default powershell
                 // Make changes here to the powershell.exe profile.
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                "name": "PowerShell",
+                "name": "PowerShell regular",
                 "commandline": "powershell.exe",
                 "hidden": false
             },
-            {
-                //launch elevated powershell
-                //@see: https://egonbraun.medium.com/how-to-open-powershell-as-admin-in-windows-terminal-6e7787ca4a1d
-                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44ba}",
-                "name": "PowerShell Elevated",
-                "commandline": "powershell.exe Start-Process -Verb RunAs wt",
-                "hidden": false
-            },
+            //launch elevated powershell
+            //  looks like it is not working (20210204). All I get is a new terminal windows with a bash opened
+            //{
+            //    
+            //    //@see: https://egonbraun.medium.com/how-to-open-powershell-as-admin-in-windows-terminal-6e7787ca4a1d
+            //    "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+            //    "name": "PowerShell Elevated",
+            //    "commandline": "powershell.exe Start-Process -Verb RunAs wt",
+            //    "hidden": false
+            //},
             {
                 // Make changes here to the cmd.exe profile.
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
