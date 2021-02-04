@@ -7,7 +7,7 @@ If file exists, it tries to load the file `c:\Users\<username>\Documents\Windows
 # Create a hardlink in Windows
 
 ```pwsh
-New-Item -ItemType HardLink -Path "C:\Users\<username>\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Target "<path to this repository>\Microsoft.PowerShell_profile.ps1"
+New-Item -ItemType HardLink -Path "C:\Users\<username>\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1" -Target "<path to this repository>\powershell\Microsoft.PowerShell_profile.ps1"
 ```
 
 # Link
