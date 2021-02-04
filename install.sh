@@ -6,6 +6,9 @@
 #   move into functions
 ########
 
+echo ":: Not maintained."
+exit
+
 clear
 
 #begin of setup
