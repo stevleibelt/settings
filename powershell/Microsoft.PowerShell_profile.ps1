@@ -128,6 +128,30 @@ Function Kill-Process
     Get-Process $ProcessName-ErrorAction SilentlyContinue | Stop-Process
 }
 
+#l
+Function List-UserOnHost
+{
+    Param (
+        [Parameter(Mandatory=$true)] [String] $hostname
+    )
+    #contains array of objects like:
+    #>>USERNAME SESSIONNAME ID STATE IDLE TIME LOGON TIME
+    #>>randomnote1 console 1 Active none 8/14/2019 6:52 AM
+    $arrayOfResultObjects = Invoke-Expression ("quser /server:$hostname");
+
+    #contains array of lines like:
+    #>>USERNAME,SESSIONNAME,ID,STATE,IDLE TIME,LOGON TIME
+    #>>randomnote1,console,1,Active,none,8/14/2019 6:52 AM
+    $arrayOfCommaSeparatedValues = $arrayOfResultObjects | ForEach-Object -Process { $_ -replace '\s{2,}',',' }
+
+    $arrayOfUserObjects = $arrayOfCommaSeparatedValues| ConvertFrom-Csv
+
+    Write-Host $(":: Aktueller Host: " + $currentTerminalServerName)
+    #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
+    #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
+    $arrayOfUserObjects | Where-Object { ($_.USERNAME -like "*$userNameToFilterAgainstOrNull*") -or ($_.BENUTZERNAME -like "*$userNameToFilterAgainstOrNull*") } | Format-Table
+}
+
 #m
 Function Mirror-TerminalServerUserSession
 {
