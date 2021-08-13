@@ -193,6 +193,24 @@ Function Replace-GermanUmlauts
     Return ($String.Replace('ä','ae').Replace('Ä','Ae').Replace('ö','oe').Replace('Ö','Oe').Replace('ü','ue').Replace('Ü','Ue'))
 }
 
+#@see: https://4sysops.com/archives/how-to-reset-an-active-directory-password-with-powershell/
+Function Reset-ADUserPassword
+{
+    Param(
+        [Parameter(Mandatory=$true)] [String] $UserName,
+        [Parameter(Mandatory=$true)] [String] $Password,
+        [Parameter(Mandatory=$false)] [Bool] $ChangeAfterLogin = $false
+    )
+
+    $SecuredPassword = ConvertTo-SecureString $Password -AsPlanText -Force
+
+    Set-ADAccountPassword -Identity $UserName -NewPassword $SecuredPassword -Reset
+
+    If ($ChangeAfterLogin -eq $true) {
+        Set-ADUser -Identity $UserName -ChangePasswordAtLogon $true
+    }
+}
+
 #s
 Function Search-ADComputerList
 {
