@@ -301,6 +301,48 @@ Function Tail-Logs
 
         Get-Content $pathToTheLogs -tail 10 -wait
 }
+
+#@see: https://www.powershellbros.com/test-credentials-using-powershell-function/
+Function Test-ADCredential
+{
+    $DirectoryRoot = $null
+    $Domain = $null
+    $Password = $null
+    $UserName = $null
+
+    Try {
+        $Credential = Get-Credential -ErrorAction Stop
+    } Catch {
+        $ErrorMessage = $_.Exception.Message
+        Write-Warning "Failed to validate credentials with error message >>$ErrorMessage<<."
+
+        Pause
+        Break
+    }
+
+    Try {
+        $DirectoryRoot = "LDAP://" + ([ADSI]'').distinguishedName
+        $Password = $Credential.GetNetworkCredential().password
+        $UserName = $Credential.username
+
+        $Domain = New-Object System.DirectoryServices.DirectoryEntry($DirectoryRoot,$UserName,$Password)
+    } Catch {
+        $ErrorMessage = $_.Exception.Message
+        Write-Warning "Faild to fetch the domain object from directory service with error message >>$ErrorMessage<<."
+
+        Continue
+    }
+
+    If (!$Domain) {
+        Write-Warning "An unexpected error has happend. Could not fetch the domain object from directory service."
+    } Else {
+        If ($Domain.name -ne $null) {
+            return "User is authenticated"
+        } Else {
+            return "User is not authenticated"
+        }
+    }
+}
 #eo functions
 
 #bo alias
