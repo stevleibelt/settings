@@ -234,7 +234,7 @@ Function Search-ADUserByName
 
     $Name = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($Name)
 
-    Get-ADUser -Filter {(Name -like $Name)}
+    Get-ADUser -Filter {(Name -like $Name)} -Properties SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID | SELECT SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID
 }
 
 Function Search-CommandByName
@@ -353,3 +353,9 @@ If (Test-Path $localConfigurationFilePath) {
     . $localConfigurationFilePath
 }
 #eo load local/confidential code
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
