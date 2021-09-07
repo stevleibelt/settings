@@ -117,6 +117,121 @@ Function Get-ListOfLocalOpenPorts
     Get-NetTCPConnection -State Established,Listen | Sort-Object LocalPort
 }
 
+Function Get-UserLogon
+{
+    Param (
+        [Parameter(Mandatory=$true)] [String] $ComputerName,
+        [Parameter(Mandatory=$false)] [Int] $Days = 10
+    )
+
+    $ListOfEventSearches = @(
+        <#
+        @see: https://social.technet.microsoft.com/wiki/contents/articles/51413.active-directory-how-to-get-user-login-history-using-powershell.aspx
+        Either this is not working on my environment or not working in general.
+        I can't find any log entry with a UserName or something user related when searching for this id's in that log name.
+
+        I've decided to keep it in and have a look on it again by figuring out how to use the existing code with the logic of the following post:
+        https://adamtheautomator.com/user-logon-event-id/
+        @{
+            'ID' = 4624
+            'LogName' = 'Security'
+            'EventType' = 'SessionStart'
+        }
+        @{
+            'ID' = 4778
+            'LogName' = 'Security'
+            'EventType' = 'RdpSessionReconnect'
+        }
+        #>
+        @{
+            'ID' = 7001
+            'LogName' = 'System'
+            'EventType' = 'Logon'
+        }
+    )
+    $ListOfResultObjects = @{}
+    $StartDate = (Get-Date).AddDays(-$Days)
+
+    Write-Host $(":: Fetching event logs for the last >>" + $Days + "<< days. This will take a while.")
+    ForEach ($EventSearch in $ListOfEventSearches) {
+        Write-Host $("   Fetching events for id >>" + $EventSearch.ID + "<<, log name >>" + $EventSearch.LogName + "<<.")
+        $ListOfEventLogs = Get-EventLog -ComputerName $ComputerName -InstanceId $EventSearch.ID -LogName $EventSearch.LogName -After $StartDate
+
+        Write-Host $("   Processing >>" + $ListOfEventLogs.Count + "<< entries.")
+
+        If ($ListOfEventLogs -ne $null) {
+            ForEach ($EventLog in $ListOfEventLogs) {
+
+                $StoreEventInTheResultList = $true
+
+                If ($EventLog.InstanceId -eq 7001) {
+                    $EventType = "Logon"
+                    $User = (New-Object System.Security.Principal.SecurityIdentifier $EventLog.ReplacementStrings[1]).Translate([System.Security.Principal.NTAccount])
+                <#
+                Same reason as mentioned in the $ListOfEventSearches
+                } ElseIf ($EventLog.InstanceId -eq 4624) {
+                    If ($EventLog.ReplacementStrings[8] -eq 2) {
+                        $EventType = "Local Session Start"
+                        $User = (New-Object System.Security.Principal.SecurityIdentifier $EventLog.ReplacementStrings[5]).Translate([System.Security.Principal.NTAccount])
+                    } ElseIf ($EventLog.ReplacementStrings[8] -eq 10) {
+                        $EventType = "Remote Session Start"
+                        $User = (New-Object System.Security.Principal.SecurityIdentifier $EventLog.ReplacementStrings[5]).Translate([System.Security.Principal.NTAccount])
+                    } Else {
+                        $StoreEventInTheResultList = $false
+                    }
+                } ElseIf ($EventLog.InstanceId -eq 4778) {
+                    $EventType = "RDPSession Reconnect"
+                    $User = (New-Object System.Security.Principal.SecurityIdentifier $EventLog.ReplacementStrings[5]).Translate([System.Security.Principal.NTAccount])
+                #>
+                } Else {
+                    $StoreEventInTheResultList = $false
+                }
+
+                If ($StoreEventInTheResultList -eq $true) {
+
+                    $ResultListKey = $User.Value
+
+                    If ($ListOfResultObjects.ContainsKey($ResultListKey)) {
+                        $ResultObject = $ListOfResultObjects[$ResultListKey]
+
+                        If ($ResultObject.Time -lt $EventLog.TimeWritten ) {
+                            $ResultObject.Time = $EventLog.TimeWritten
+
+                            $ListOfResultObjects[$ResultListKey] = $ResultObject
+                        }
+                    } Else {
+
+                        $ResultObject = New-Object PSObject -Property @{
+                            Time = $EventLog.TimeWritten
+                            'Event Type' = $EventType
+                            User = $User
+                        }
+
+                        $ListOfResultObjects.Add($ResultListKey, $ResultObject)
+                    }
+                }
+            }
+        }
+    }
+
+    If ($ListOfResultObjects -ne $null) {
+        <#
+        We are doing evil things. I have no idea how to output and sort the existing list.
+        That is the reason why we create another list we can output and sort easily
+        #>
+        $ArrayOfResultObjects = @()
+
+        ForEach ($key in $ListOfResultObjects.Keys) {
+            $ArrayOfResultObjects += $ListOfResultObjects[$key]
+        }
+        Write-Host $(":: Dumping >>" + $ListOfResultObjects.Count + "<< event logs.")
+        $ArrayOfResultObjects | Select Time,"Event Type",User | Sort Time -Descending
+
+    } Else {
+        Write-Host ":: Could not find any matching event logs."
+    }
+}
+
 #k
 #@see: https://github.com/mikemaccana/powershell-profile/blob/master/unix.ps1
 Function Kill-Process
