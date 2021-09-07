@@ -217,7 +217,7 @@ Function Get-UserLogon
     If ($ListOfResultObjects -ne $null) {
         <#
         We are doing evil things. I have no idea how to output and sort the existing list.
-        That is the reason why we create another list we can output and sort easily
+        That is the reason why we create an array we can output and sort easily.
         #>
         $ArrayOfResultObjects = @()
 
