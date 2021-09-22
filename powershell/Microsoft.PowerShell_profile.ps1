@@ -119,9 +119,31 @@ Function Get-ListOfLocalOpenPorts
 
 Function Get-UpTime
 {
-    $DateObject = (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory=$false,Position=0)] [String[]] $ListOfComputerName=$null
+    )
 
-    Write-Output $("{0} Days - {1}:{2}:{3} H:M:S" -f $DateObject.Days, $DateObject.Hours, $DateObject.Minutes, $DateObject.Seconds)
+    $DataTable = @()
+    $RequestForLocalHost = ($ListOfComputerName -eq $null)
+
+    If ($RequestForLocalHost -eq $true) {
+        $DateObject = (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
+        $DataTable += [Pscustomobject]@{ComputerName = "LocalHost";Days = $DateObject.Days; Hours = $DateObject.Hours; Minutes = $DateObject.Minutes; Seconds= $DateObject.Seconds}
+    } Else {
+        Write-Host ":: Fetching uptime for remote computers."
+
+        ForEach ($CurrentComputerName in $ListOfComputerName) {
+            Write-Host -NoNewLine "."
+
+            $DateObject = Invoke-Command -ComputerName $CurrentComputerName -ScriptBlock {(get-date) - (gcim Win32_OperatingSystem).LastBootUpTime}
+            $DataTable += [Pscustomobject]@{ComputerName = "$CurrentComputerName";Days = $DateObject.Days; Hours = $DateObject.Hours; Minutes = $DateObject.Minutes; Seconds= $DateObject.Seconds}
+        }
+
+        Write-Host ""
+    }
+
+    $DataTable | Format-Table
 }
 
 Function Get-UserLogon
