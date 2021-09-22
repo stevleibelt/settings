@@ -117,6 +117,13 @@ Function Get-ListOfLocalOpenPorts
     Get-NetTCPConnection -State Established,Listen | Sort-Object LocalPort
 }
 
+Function Get-UpTime
+{
+    $DateObject = (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
+
+    Write-Output $("{0} Days - {1}:{2}:{3} H:M:S" -f $DateObject.Days, $DateObject.Hours, $DateObject.Minutes, $DateObject.Seconds)
+}
+
 Function Get-UserLogon
 {
     Param (
