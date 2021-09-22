@@ -381,6 +381,44 @@ Function Search-ADUserByName
     Get-ADUser -Filter {(Name -like $Name)} -Properties SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID | SELECT SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID
 }
 
+Function Search-ADUserOnComputerNameList
+{
+    [CmdletBinding()]
+    Param (
+        [Parameter(Mandatory=$true,Position=0)] [String[]] $ListOfComputerName,
+        [Parameter(Mandatory=$false,Position=1)] [String[]] $UserNameToFilterAgainst=$null
+    )
+
+    $DataTable = @()
+
+    ForEach ($CurrentComputerName in $ListOfComputerName) {
+        #contains array of objects like:
+        #>>USERNAME SESSIONNAME ID STATE IDLE TIME LOGON TIME
+        #>>randomnote1 console 1 Active none 8/14/2019 6:52 AM
+        $ArrayOfResultObjects = Invoke-Expression ("quser /server:$CurrentComputerName");
+
+        #contains array of lines like:
+        #>>USERNAME,SESSIONNAME,ID,STATE,IDLE TIME,LOGON TIME
+        #>>randomnote1,console,1,Active,none,8/14/2019 6:52 AM
+        $ArrayOfCommaSeparatedValues = $ArrayOfResultObjects | ForEach-Object -Process { $_ -replace '\s{2,}',',' }
+
+        $ArrayOfUserObjects = $ArrayOfCommaSeparatedValues| ConvertFrom-Csv
+
+        If ($UserNameToFilterAgainstOrNull -eq $null) {
+            Write-Host $(":: " + $CurrentComputerName)
+            $ArrayOfUserObjects | Format-Table
+        } Else {
+            #check if the name is inside this array to only print the current terminal server when needed, else be silent.
+            If ($ArrayOfResultObjects -like "*$UserNameToFilterAgainstOrNull*") {
+                Write-Host $(":: " + $CurrentComputerName)
+                #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
+                #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
+                $ArrayOfUserObjects | Where-Object { ($_.USERNAME -like "*$userNameToFilterAgainstOrNull*") -or ($_.BENUTZERNAME -like "*$userNameToFilterAgainstOrNull*") } | Format-Table
+            }
+        }
+    }
+}
+
 Function Search-CommandByName
 {
     Param(
