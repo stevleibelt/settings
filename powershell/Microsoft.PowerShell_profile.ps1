@@ -137,7 +137,7 @@ Function Get-UpTime
             Write-Host -NoNewLine "."
 
             $DateObject = Invoke-Command -ComputerName $CurrentComputerName -ScriptBlock {(get-date) - (gcim Win32_OperatingSystem).LastBootUpTime}
-            $DataTable += [Pscustomobject]@{ComputerName = "$CurrentComputerName";Days = $DateObject.Days; Hours = $DateObject.Hours; Minutes = $DateObject.Minutes; Seconds= $DateObject.Seconds}
+            $DataTable += [Pscustomobject]@{ComputerName = $CurrentComputerName;Days = $DateObject.Days; Hours = $DateObject.Hours; Minutes = $DateObject.Minutes; Seconds= $DateObject.Seconds}
         }
 
         Write-Host ""
@@ -435,12 +435,12 @@ Function Search-ADUserSessionOnComputerNameList
         $ArrayOfUserObjects = $ArrayOfCommaSeparatedValues| ConvertFrom-Csv
 
         If ($UserNameToFilterAgainstOrNull -eq $null) {
-            Write-Host $(":: Computer name: " + $currentTerminalServerName)
+            Write-Host $(":: Computer name: " + $CurrentComputerName)
             $ArrayOfUserObjects | Format-Table
         } Else {
             #check if the name is inside this array to only print the current terminal server when needed, else be silent.
             If ($ArrayOfResultObjects -like "*$UserNameToFilterAgainstOrNull*") {
-                Write-Host $(":: Computer name: " + $currentTerminalServerName)
+                Write-Host $(":: Computer name: " + $CurrentComputerName)
                 #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
                 #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
                 $ArrayOfUserObjects | Where-Object { ($_.USERNAME -like "*$userNameToFilterAgainstOrNull*") -or ($_.BENUTZERNAME -like "*$userNameToFilterAgainstOrNull*") } | Format-Table
