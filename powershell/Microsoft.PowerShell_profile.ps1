@@ -598,6 +598,10 @@ Function Test-CommandExists
 #eo functions
 
 #bo alias
+####
+#PowerShell does not support creating alias command calls with arguments
+#@see: https://seankilleen.com/2020/04/how-to-create-a-powershell-alias-with-parameters/
+#If (Test-CommandExists chocolatey) {
 #eo alias
 
 #bo load local/confidential code
