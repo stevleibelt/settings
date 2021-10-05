@@ -272,7 +272,7 @@ Function Invoke-LocalCommandRemotely ()
     Param(
         [Parameter(Mandatory=$true)] [System.String[]] $FunctionName,
 
-        [Parameter(Mandatory=$true)] $Session
+        [Parameter(Mandatory=$true,HelpMessage='Run >>$Session = New-PSSession -ComputerName <host name>')] $Session
     )
 
     Process {
@@ -301,7 +301,7 @@ Function Invoke-LocalCommandRemotely ()
 
                     Write-Host $(':: You can now run >>Invoke-Command -Session $Session -ScriptBlock {' + $_ + '}<<.')
                 }
-            } Catch [CommandNotFoundException] {
+            } Catch {
                 Throw $_
             }
         }
