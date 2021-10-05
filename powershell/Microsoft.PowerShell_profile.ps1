@@ -25,6 +25,7 @@ $localConfigurationFilePath = $($configurationSourcePath + "\local.profile.ps1")
 #a
 Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $String
     )
@@ -84,6 +85,7 @@ Function Get-ADComputerServerList
 
 Function Get-IsSoftwareInstalled
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $SoftwareName
     )
@@ -148,6 +150,7 @@ Function Get-UpTime
 
 Function Get-UserLogon
 {
+    [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)] [String] $ComputerName,
         [Parameter(Mandatory=$false)] [Int] $Days = 10
@@ -265,6 +268,7 @@ Function Get-UserLogon
 #@see: https://github.com/mikemaccana/powershell-profile/blob/master/unix.ps1
 Function Kill-Process
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $ProcessName
     )
@@ -275,6 +279,7 @@ Function Kill-Process
 #l
 Function List-UserOnHost
 {
+    [CmdletBinding()]
     Param (
         [Parameter(Mandatory=$true)] [String] $hostname
     )
@@ -299,6 +304,7 @@ Function List-UserOnHost
 #m
 Function Mirror-TerminalServerUserSession
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $TerminalServerHostName,
         [Parameter(Mandatory=$true)] [String] $SessionId
@@ -325,11 +331,12 @@ Function Prompt
 #r
 Function Reload-Profile
 {
-    . "$profile"
+    . $profile
 }
 
 Function Replace-GermanUmlauts
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $String
     )
@@ -340,6 +347,7 @@ Function Replace-GermanUmlauts
 #@see: https://4sysops.com/archives/how-to-reset-an-active-directory-password-with-powershell/
 Function Reset-ADUserPassword
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $UserName,
         [Parameter(Mandatory=$true)] [String] $Password,
@@ -358,6 +366,7 @@ Function Reset-ADUserPassword
 #s
 Function Search-ADComputerList
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $Name
     )
@@ -372,6 +381,7 @@ Function Search-ADComputerList
 
 Function Search-ADUserByName
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $Name
     )
@@ -451,6 +461,7 @@ Function Search-ADUserSessionOnComputerNameList
 
 Function Search-CommandByName
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $CommandName
     )
@@ -462,6 +473,7 @@ Function Search-CommandByName
 
 Function Search-ProcessByName
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $ProcessName
     )
@@ -473,6 +485,7 @@ Function Search-ProcessByName
 
 Function Show-IpAndMacAddressFromComputer
 {
+    [CmdletBinding()]
     #@see: https://gallery.technet.microsoft.com/scriptcenter/How-do-I-get-MAC-and-IP-46382777
     Param (
         [Parameter(Mandatory=$true,ValueFromPipeline=$true,Position=0)] [string[]]$ListOfComputerName
@@ -493,6 +506,7 @@ Function Show-IpAndMacAddressFromComputer
 
 Function Show-Links
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $directoryPath
     )
@@ -503,6 +517,7 @@ Function Show-Links
 #t
 Function Tail-Logs
 {
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$false)] [String] $pathToTheLogs = "C:\Windows\logs\*\"
     )
@@ -554,6 +569,31 @@ Function Test-ADCredential
             return "User is not authenticated"
         }
     }
+}
+
+#@see: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
+Function Test-CommandExists
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory=$true)] [String] $CommandName
+    )
+
+    $OldErrorActionPreference = $ErrorActionPreference
+
+    $ErrorActionPreference = "stop"
+
+    Try {
+        If (Get-Command $CommandName) {
+            $CommandExists = $true
+        }
+    } Catch {
+        $CommandExists = $false
+    } Finally {
+        $ErrorActionPreference = $OldErrorActionPreference
+    }
+
+    return $CommandExists
 }
 #eo functions
 
