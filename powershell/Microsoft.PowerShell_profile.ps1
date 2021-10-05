@@ -23,7 +23,7 @@ $localConfigurationFilePath = $($configurationSourcePath + "\local.profile.ps1")
 #@see: https://github.com/gummesson/kapow/blob/master/themes/bashlet.ps1
 
 #a
-Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded
+Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ()
 {
     [CmdletBinding()]
     Param(
@@ -43,7 +43,7 @@ Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded
 
 #g
 #@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
-Function Get-ADComputerClientList
+Function Get-ADComputerClientList ()
 {
     Get-ADComputer -Filter { (OperatingSystem -notlike "*server*") -and (Enabled -eq $true) } `
     -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address |
@@ -53,7 +53,7 @@ Function Get-ADComputerClientList
 
 #@see: https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
 #@see: https://adsecurity.org/?p=873
-Function Get-ADComputerDCList
+Function Get-ADComputerDCList ()
 {
     #primary group id:
     #    515 -> domain computer
@@ -66,7 +66,7 @@ Function Get-ADComputerDCList
 }
 
 #@see: https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
-Function Get-ADComputerList
+Function Get-ADComputerList ()
 {
     Get-ADComputer -Filter { (Enabled -eq $true) } `
     -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
@@ -75,7 +75,7 @@ Function Get-ADComputerList
 }
 
 #@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
-Function Get-ADComputerServerList
+Function Get-ADComputerServerList ()
 {
     Get-ADComputer -Filter { (OperatingSystem -like "*server*") -and (Enabled -eq $true) } `
     -Properties Name,Operatingsystem,OperatingSystemVersion,IPv4Address,primarygroupid |
@@ -83,7 +83,7 @@ Function Get-ADComputerServerList
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
 }
 
-Function Get-IsSoftwareInstalled
+Function Get-IsSoftwareInstalled ()
 {
     [CmdletBinding()]
     Param(
@@ -114,12 +114,12 @@ Function Get-IsSoftwareInstalled
 }
 
 #@see: https://sid-500.com/2020/05/23/video-powershell-cmdlets-as-a-replacement-for-ping-arp-traceroute-and-nmap/
-Function Get-ListOfLocalOpenPorts
+Function Get-ListOfLocalOpenPorts ()
 {
     Get-NetTCPConnection -State Established,Listen | Sort-Object LocalPort
 }
 
-Function Get-UpTime
+Function Get-UpTime ()
 {
     [CmdletBinding()]
     Param (
@@ -148,7 +148,7 @@ Function Get-UpTime
     $DataTable | Format-Table
 }
 
-Function Get-UserLogon
+Function Get-UserLogon ()
 {
     [CmdletBinding()]
     Param (
@@ -264,9 +264,53 @@ Function Get-UserLogon
     }
 }
 
+#i
+#@see: https://matthewjdegarmo.com/powershell/2021/03/31/how-to-import-a-locally-defined-function-into-a-remote-powershell-session.html
+Function Invoke-LocalCommandRemotely ()
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory=$true)] [System.String[]] $FunctionName,
+
+        [Parameter(Mandatory=$true)] $Session
+    )
+
+    Process {
+        $FunctionName | ForEach-Object {
+            Try {
+                #check if we can find a function for the current function name
+                $CurrentFunction = Get-Command -Name $_
+
+                If ($CurrentFunction) {
+                    #if there is a function available
+                    #   we create a script block with the name of the
+                    #   function and the body of the found function
+                    #at the end, we copy the whole function into a
+                    #   script block and this script block is
+                    #   executed on the (remote) session
+                    $CurrentFunctionDefinition = @"
+                        $($CurrentFunction.CommandType) $_() {
+                            $($CurrentFunction.Definition)
+                        }
+"@
+
+                    Invoke-Command -Session $Session -ScriptBlock {
+                        Param($CodeToLoadAsString)
+                        . ([ScriptBlock]::Create($CodeToLoadAsString))
+                    } -ArgumentList $CurrentFunctionDefinition
+
+                    Write-Host $(':: You can now run >>Invoke-Command -Session $Session -ScriptBlock {' + $_ + '}<<.')
+                }
+            } Catch [CommandNotFoundException] {
+                Throw $_
+            }
+        }
+    }
+}
+
 #k
 #@see: https://github.com/mikemaccana/powershell-profile/blob/master/unix.ps1
-Function Kill-Process
+Function Kill-Process ()
 {
     [CmdletBinding()]
     Param(
@@ -277,7 +321,7 @@ Function Kill-Process
 }
 
 #l
-Function List-UserOnHost
+Function List-UserOnHost ()
 {
     [CmdletBinding()]
     Param (
@@ -302,7 +346,7 @@ Function List-UserOnHost
 }
 
 #m
-Function Mirror-TerminalServerUserSession
+Function Mirror-TerminalServerUserSession ()
 {
     [CmdletBinding()]
     Param(
@@ -314,7 +358,7 @@ Function Mirror-TerminalServerUserSession
 }
 
 #p
-Function Prompt
+Function Prompt ()
 {
     $promptColor = If ($isElevated) { "Red" } Else { "DarkGreen"}
 
@@ -329,12 +373,12 @@ Function Prompt
 }
 
 #r
-Function Reload-Profile
+Function Reload-Profile ()
 {
     . $profile
 }
 
-Function Replace-GermanUmlauts
+Function Replace-GermanUmlauts ()
 {
     [CmdletBinding()]
     Param(
@@ -345,7 +389,7 @@ Function Replace-GermanUmlauts
 }
 
 #@see: https://4sysops.com/archives/how-to-reset-an-active-directory-password-with-powershell/
-Function Reset-ADUserPassword
+Function Reset-ADUserPassword ()
 {
     [CmdletBinding()]
     Param(
@@ -364,7 +408,7 @@ Function Reset-ADUserPassword
 }
 
 #s
-Function Search-ADComputerList
+Function Search-ADComputerList ()
 {
     [CmdletBinding()]
     Param(
@@ -379,7 +423,7 @@ Function Search-ADComputerList
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
 }
 
-Function Search-ADUserByName
+Function Search-ADUserByName ()
 {
     [CmdletBinding()]
     Param(
@@ -391,7 +435,7 @@ Function Search-ADUserByName
     Get-ADUser -Filter {(Name -like $Name)} -Properties SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID | SELECT SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID
 }
 
-Function Search-ADUserPathOnComputerNameList
+Function Search-ADUserPathOnComputerNameList ()
 {
     [CmdletBinding()]
     Param (
@@ -423,7 +467,7 @@ Function Search-ADUserPathOnComputerNameList
     }
 }
 
-Function Search-ADUserSessionOnComputerNameList
+Function Search-ADUserSessionOnComputerNameList ()
 {
     [CmdletBinding()]
     Param (
@@ -459,7 +503,7 @@ Function Search-ADUserSessionOnComputerNameList
     }
 }
 
-Function Search-CommandByName
+Function Search-CommandByName ()
 {
     [CmdletBinding()]
     Param(
@@ -471,7 +515,7 @@ Function Search-CommandByName
     Get-Command -Verb Get -Noun $CommandName
 }
 
-Function Search-ProcessByName
+Function Search-ProcessByName ()
 {
     [CmdletBinding()]
     Param(
@@ -483,7 +527,7 @@ Function Search-ProcessByName
     Get-Process | Where-Object { $_.ProcessName -like $ProcessName }
 }
 
-Function Show-IpAndMacAddressFromComputer
+Function Show-IpAndMacAddressFromComputer ()
 {
     [CmdletBinding()]
     #@see: https://gallery.technet.microsoft.com/scriptcenter/How-do-I-get-MAC-and-IP-46382777
@@ -504,7 +548,7 @@ Function Show-IpAndMacAddressFromComputer
     }
 }
 
-Function Show-Links
+Function Show-Links ()
 {
     [CmdletBinding()]
     Param(
@@ -515,7 +559,7 @@ Function Show-Links
 }
 
 #t
-Function Tail-Logs
+Function Tail-Logs ()
 {
     [CmdletBinding()]
     Param(
@@ -530,7 +574,7 @@ Function Tail-Logs
 }
 
 #@see: https://www.powershellbros.com/test-credentials-using-powershell-function/
-Function Test-ADCredential
+Function Test-ADCredential ()
 {
     $DirectoryRoot = $null
     $Domain = $null
@@ -572,7 +616,7 @@ Function Test-ADCredential
 }
 
 #@see: https://devblogs.microsoft.com/scripting/use-a-powershell-function-to-see-if-a-command-exists/
-Function Test-CommandExists
+Function Test-CommandExists ()
 {
     [CmdletBinding()]
     Param(
