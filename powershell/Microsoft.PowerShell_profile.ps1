@@ -444,25 +444,29 @@ Function Search-ADUserPathOnComputerNameList ()
     )
 
     ForEach ($CurrentComputerName in $ListOfComputerName) {
-        #contains array of objects like:
-        #>>USERNAME SESSIONNAME ID STATE IDLE TIME LOGON TIME
-        #>>randomnote1 console 1 Active none 8/14/2019 6:52 AM
-	    $ArrayOfResultObjects = Get-ChildItem -Path ("\\" + $CurrentComputerName + "\c$\Users")
+        If ((Test-NetConnection $CurrentComputerName -WarningAction SilentlyContinue).PingSucceeded -eq $true) {
+            #contains array of objects like:
+            #>>USERNAME SESSIONNAME ID STATE IDLE TIME LOGON TIME
+            #>>randomnote1 console 1 Active none 8/14/2019 6:52 AM
+            $ArrayOfResultObjects = Get-ChildItem -Path ("\\" + $CurrentComputerName + "\c$\Users")
 
-        #contains array of lines like:
-        #>>Mode,LastWriteTime,Length,Name
-        #>>d-----       15.06.2020     09:21                mustermann
-        If ($UserNameToFilterAgainstOrNull -eq $null) {
-            Write-Host $(":: Computer name: " + $CurrentComputerName)
-            $ArrayOfResultObjects | Format-Table
-        } Else {
-            #check if the name is inside this array to only print the current terminal server when needed, else be silent.
-            If ($ArrayOfResultObjects -like "*$UserNameToFilterAgainstOrNull*") {
+            #contains array of lines like:
+            #>>Mode,LastWriteTime,Length,Name
+            #>>d-----       15.06.2020     09:21                mustermann
+            If ($UserNameToFilterAgainstOrNull -eq $null) {
                 Write-Host $(":: Computer name: " + $CurrentComputerName)
-                #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
-                #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
-                $ArrayOfResultObjects | Where-Object { ($_.NAME -like "*$UserNameToFilterAgainstOrNull*")} | Format-Table
+                $ArrayOfResultObjects | Format-Table
+            } Else {
+                #check if the name is inside this array to only print the current terminal server when needed, else be silent.
+                If ($ArrayOfResultObjects -like "*$UserNameToFilterAgainstOrNull*") {
+                    Write-Host $(":: Computer name: " + $CurrentComputerName)
+                    #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
+                    #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
+                    $ArrayOfResultObjects | Where-Object { ($_.NAME -like "*$UserNameToFilterAgainstOrNull*")} | Format-Table
+                }
             }
+        } Else {
+            Write-Host $(":: Hostname >>" + $CurrentComputerName + "<< is offline. Skipping it.")
         }
     }
 }
@@ -476,29 +480,35 @@ Function Search-ADUserSessionOnComputerNameList ()
     )
 
     ForEach ($CurrentComputerName in $ListOfComputerName) {
-        #contains array of objects like:
-        #>>USERNAME SESSIONNAME ID STATE IDLE TIME LOGON TIME
-        #>>randomnote1 console 1 Active none 8/14/2019 6:52 AM
-        $ArrayOfResultObjects = Invoke-Expression ("quser /server:$CurrentComputerName");
+        #only work on online systems
+        #if you prefere having a visual feedback, is this line
+        If ((Test-NetConnection $CurrentComputerName -WarningAction SilentlyContinue).PingSucceeded -eq $true) {
+            #contains array of objects like:
+            #>>USERNAME SESSIONNAME ID STATE IDLE TIME LOGON TIME
+            #>>randomnote1 console 1 Active none 8/14/2019 6:52 AM
+            $ArrayOfResultObjects = Invoke-Expression ("quser /server:$CurrentComputerName");
 
-        #contains array of lines like:
-        #>>USERNAME,SESSIONNAME,ID,STATE,IDLE TIME,LOGON TIME
-        #>>randomnote1,console,1,Active,none,8/14/2019 6:52 AM
-        $ArrayOfCommaSeparatedValues = $ArrayOfResultObjects | ForEach-Object -Process { $_ -replace '\s{2,}',',' }
+            #contains array of lines like:
+            #>>USERNAME,SESSIONNAME,ID,STATE,IDLE TIME,LOGON TIME
+            #>>randomnote1,console,1,Active,none,8/14/2019 6:52 AM
+            $ArrayOfCommaSeparatedValues = $ArrayOfResultObjects | ForEach-Object -Process { $_ -replace '\s{2,}',',' }
 
-        $ArrayOfUserObjects = $ArrayOfCommaSeparatedValues| ConvertFrom-Csv
+            $ArrayOfUserObjects = $ArrayOfCommaSeparatedValues| ConvertFrom-Csv
 
-        If ($UserNameToFilterAgainstOrNull -eq $null) {
-            Write-Host $(":: Computer name: " + $CurrentComputerName)
-            $ArrayOfUserObjects | Format-Table
-        } Else {
-            #check if the name is inside this array to only print the current terminal server when needed, else be silent.
-            If ($ArrayOfResultObjects -like "*$UserNameToFilterAgainstOrNull*") {
+            If ($UserNameToFilterAgainstOrNull -eq $null) {
                 Write-Host $(":: Computer name: " + $CurrentComputerName)
-                #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
-                #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
-                $ArrayOfUserObjects | Where-Object { ($_.USERNAME -like "*$userNameToFilterAgainstOrNull*") -or ($_.BENUTZERNAME -like "*$userNameToFilterAgainstOrNull*") } | Format-Table
+                $ArrayOfUserObjects | Format-Table
+            } Else {
+                #check if the name is inside this array to only print the current terminal server when needed, else be silent.
+                If ($ArrayOfResultObjects -like "*$UserNameToFilterAgainstOrNull*") {
+                    Write-Host $(":: Computer name: " + $CurrentComputerName)
+                    #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
+                    #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
+                    $ArrayOfUserObjects | Where-Object { ($_.USERNAME -like "*$userNameToFilterAgainstOrNull*") -or ($_.BENUTZERNAME -like "*$userNameToFilterAgainstOrNull*") } | Format-Table
+                }
             }
+        } Else {
+            Write-Host $(":: Hostname >>" + $CurrentComputerName + "<< is offline. Skipping it.")
         }
     }
 }
@@ -536,7 +546,7 @@ Function Show-IpAndMacAddressFromComputer ()
     )
 
     ForEach ($ComputerName in $ListOfComputerName) {
-        If (Test-Connection -Cn $ComputerName -quiet) {
+        If ((Test-NetConnection $ComputerName -WarningAction SilentlyContinue).PingSucceeded -eq $true) {
             $IpAddressToString = ([System.Net.Dns]::GetHostByName($ComputerName).AddressList[0]).IpAddressToString
             $IPMAC = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -ComputerName $ComputerName
             $MacAddress = ($IPMAC | where { $_.IpAddress -eq $IpAddressToString }).MACAddress
