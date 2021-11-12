@@ -537,6 +537,12 @@ Function Search-ProcessByName ()
     Get-Process | Where-Object { $_.ProcessName -like $ProcessName }
 }
 
+Function Show-DiskStatus ()
+{
+    #@see: http://woshub.com/check-hard-drive-health-smart-windows/
+    Get-PhysicalDisk | Get-StorageReliabilityCounter | Select-Object -Property DeviceID, Wear, ReadErrorsTotal, ReadErrorsCorrected, WriteErrorsTotal, WriteErrorsUncorrected, Temperature, TemperatureMax | Format-Table
+}
+
 Function Show-IpAndMacAddressFromComputer ()
 {
     [CmdletBinding()]
