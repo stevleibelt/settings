@@ -432,7 +432,7 @@ Function Search-ADUserByName ()
 
     $Name = Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ($Name)
 
-    Get-ADUser -Filter {(Name -like $Name)} -Properties SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID | SELECT SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID
+    Get-ADUser -Filter {(Name -like $Name) -or (SamAccountName -like $Name)} -Properties SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID | SELECT SamAccountName,Name,EmailAddress,Enabled,ObjectGUID,SID
 }
 
 Function Search-ADUserPathOnComputerNameList ()
