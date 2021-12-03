@@ -93,6 +93,17 @@ Function Get-ADGroupBySid ()
     Get-ADGroup -Identity $SID
 }
 
+#@see: http://woshub.com/convert-sid-to-username-and-vice-versa/
+Function Get-ADObjectBySid ()
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory=$true)] [String] $SID
+    )
+
+    Get-ADObject IncludeDeletedObjects -Filter "objectSid -eq '$SID'" | Select-Object name, objectClass
+}
+
 Function Get-ADUserBySid ()
 {
     [CmdletBinding()]
