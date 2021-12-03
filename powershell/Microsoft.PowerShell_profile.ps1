@@ -83,6 +83,26 @@ Function Get-ADComputerServerList ()
     Select-Object -Property Name,Operatingsystem,OperatingSystemVersion,IPv4Address,PrimaryGroupId | Format-Table
 }
 
+Function Get-ADGroupBySid ()
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory=$true)] [String] $SID
+    )
+
+    Get-ADGroup -Identity $SID
+}
+
+Function Get-ADUserBySid ()
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory=$true)] [String] $SID
+    )
+
+    Get-ADUser -Identity $SID
+}
+
 Function Get-IsSoftwareInstalled ()
 {
     [CmdletBinding()]
