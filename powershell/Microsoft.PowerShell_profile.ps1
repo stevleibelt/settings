@@ -382,10 +382,17 @@ Function Mirror-TerminalServerUserSession ()
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)] [String] $TerminalServerHostName,
-        [Parameter(Mandatory=$true)] [String] $SessionId
+        [Parameter(Mandatory=$false)] [String] $SessionId
     )
 
-    mstsc.exe /v:$TerminalServerHostName /shadow:$SessionId /control
+    If (-not($SessionId)) {
+        #no session id is used if there is no user logged in our you want
+        #  to login on a running pc
+        mstsc.exe /v:$TerminalServerHostName 
+    } Else {
+        #session id is used, ask if you can mirror the existing user session
+        mstsc.exe /v:$TerminalServerHostName /shadow:$SessionId /control
+    }
 }
 
 #p
