@@ -356,42 +356,47 @@ Function List-UserOnHost ()
 {
     [CmdletBinding()]
     Param (
-        [Parameter(Mandatory=$true)] [String] $hostname
+        [Parameter(Mandatory=$true)] [String] $HostName,
+        [Parameter(Mandatory=$false)] [String] $UserNameToFilterAgainstOrNull = $null
     )
     #contains array of objects like:
     #>>USERNAME SESSIONNAME ID STATE IDLE TIME LOGON TIME
     #>>randomnote1 console 1 Active none 8/14/2019 6:52 AM
-    $arrayOfResultObjects = Invoke-Expression ("quser /server:$hostname");
+    $arrayOfResultObjects = Invoke-Expression ("quser /server:$HostName");
 
     #contains array of lines like:
     #>>USERNAME,SESSIONNAME,ID,STATE,IDLE TIME,LOGON TIME
     #>>randomnote1,console,1,Active,none,8/14/2019 6:52 AM
-    $arrayOfCommaSeparatedValues = $arrayOfResultObjects | ForEach-Object -Process { $_ -replace '\s{2,}',',' }
+    $ArrayOfCommaSeparatedValues = $ArrayOfResultObjects | ForEach-Object -Process { $_ -replace '\s{2,}',',' }
 
-    $arrayOfUserObjects = $arrayOfCommaSeparatedValues| ConvertFrom-Csv
+    $ArrayOfUserObjects = $ArrayOfCommaSeparatedValues| ConvertFrom-Csv
 
-    Write-Host $(":: Aktueller Host: " + $currentTerminalServerName)
+    Write-Host $(":: Aktueller Host: " + $HostName)
     #@see: https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
     #@see: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/query-user
-    $arrayOfUserObjects | Where-Object { ($_.USERNAME -like "*$userNameToFilterAgainstOrNull*") -or ($_.BENUTZERNAME -like "*$userNameToFilterAgainstOrNull*") } | Format-Table
+    If ($UserNameToFilterAgainstOrNull -eq $null) {
+        $ArrayOfUserObjects | Format-Table
+    } Else {
+        $ArrayOfUserObjects | Where-Object { ($_.USERNAME -like "*$UserNameToFilterAgainstOrNull*") -or ($_.BENUTZERNAME -like "*$UserNameToFilterAgainstOrNull*") } | Format-Table
+    }
 }
 
 #m
-Function Mirror-TerminalServerUserSession ()
+Function Mirror-UserSession ()
 {
     [CmdletBinding()]
     Param(
-        [Parameter(Mandatory=$true)] [String] $TerminalServerHostName,
+        [Parameter(Mandatory=$true)] [String] $HostName,
         [Parameter(Mandatory=$false)] [String] $SessionId
     )
 
     If (-not($SessionId)) {
         #no session id is used if there is no user logged in our you want
         #  to login on a running pc
-        mstsc.exe /v:$TerminalServerHostName 
+        mstsc.exe /v:$HostName 
     } Else {
         #session id is used, ask if you can mirror the existing user session
-        mstsc.exe /v:$TerminalServerHostName /shadow:$SessionId /control
+        mstsc.exe /v:$HostName /shadow:$SessionId /control
     }
 }
 
