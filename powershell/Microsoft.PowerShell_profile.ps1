@@ -49,19 +49,21 @@ Function Execute-7zipAllDirectories ()
         [Parameter(Mandatory=$false)] [String] $SourcePath = $PWD.Path
     )
 
-    ForEach ($CurrentDirectory In Get-ChildItem -Path $SourcePath -Depth 0 -Directory) {
+    $PreviousCurrentWorkingDirectory = $PWD.Path
 
-        $FullQualifiedDirectoryPath = Join-Path -Path $SourcePath -ChildPath $CurrentDirectory
+    Set-Location -Path $SourcePath
 
-        If (Test-Path -Path "${FullQualifiedDirectoryPath}.7z") {
+    ForEach ($CurrentDirectory In Get-ChildItem -Path . -Depth 0 -Directory) {
+
+        If (Test-Path -Path "${CurrentDirectory}.7z") {
             Write-Host ":: Skipping directory >>${CurrentDirectory}<<, >>${CurrentDirectory}.7z<< already exists."
         } Else {
             $ListOfArgument = @(
                 'a'
-                't7z'
+                '-t7z'
                 '-mx9'
-                "${FullQualifiedDirectoryPath}.7z"
-                "${FullQualifiedDirectoryPath}"
+                "${CurrentDirectory}.7z"
+                "${CurrentDirectory}"
             )
             Write-Verbose ":: Processing directory >>${CurrentDirectory}<<."
             Start-Process 7z.exe -ArgumentList $ListOfArgument -NoNewWindow -Wait
@@ -69,6 +71,8 @@ Function Execute-7zipAllDirectories ()
             Write-Host ":: Archiving done, please delete directory >>${CurrentDirectory}<<."
         }
     }
+
+    Set-Location -Path $PreviousCurrentWorkingDirectory
 }
 
 #g
