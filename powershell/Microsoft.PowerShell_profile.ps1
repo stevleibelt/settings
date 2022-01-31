@@ -41,6 +41,36 @@ Function Add-StarsToTheBeginningAndTheEndOfAStringIfNeeded ()
     Return $String
 }
 
+#e
+Function Execute-7zipAllDirectories ()
+{
+    [CmdletBinding()]
+    Param(
+        [Parameter(Mandatory=$false)] [String] $SourcePath = $PWD.Path
+    )
+
+    ForEach ($CurrentDirectory In Get-ChildItem -Path $SourcePath -Depth 0 -Directory) {
+
+        $FullQualifiedDirectoryPath = Join-Path -Path $SourcePath -ChildPath $CurrentDirectory
+
+        If (Test-Path -Path "${FullQualifiedDirectoryPath}.7z") {
+            Write-Host ":: Skipping directory >>${CurrentDirectory}<<, >>${CurrentDirectory}.7z<< already exists."
+        } Else {
+            $ListOfArgument = @(
+                'a'
+                't7z'
+                '-mx9'
+                "${FullQualifiedDirectoryPath}.7z"
+                "${FullQualifiedDirectoryPath}"
+            )
+            Write-Verbose ":: Processing directory >>${CurrentDirectory}<<."
+            Start-Process 7z.exe -ArgumentList $ListOfArgument -NoNewWindow -Wait
+
+            Write-Host ":: Archiving done, please delete directory >>${CurrentDirectory}<<."
+        }
+    }
+}
+
 #g
 #@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
 Function Get-ADComputerClientList ()
