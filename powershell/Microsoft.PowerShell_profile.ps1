@@ -80,13 +80,13 @@ Function Find-Directory ()
 {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory) = $true]
+        [Parameter(Mandatory = $true)]
         [string] $KeyWord,
 
-        [Parameter(Mandatory) = $false]
+        [Parameter(Mandatory = $false)]
         [string] $RootPath = $PWD.Path,
 
-        [Parameter(Mandatory) = $false],
+        [Parameter(Mandatory = $false)]
         [switch] $BeVerbose
     )
 
@@ -101,13 +101,13 @@ Function Find-File ()
 {
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory) = $true]
+        [Parameter(Mandatory = $true)]
         [string] $KeyWord,
 
-        [Parameter(Mandatory) = $false]
+        [Parameter(Mandatory = $false)]
         [string] $RootPath = $PWD.Path,
 
-        [Parameter(Mandatory) = $false],
+        [Parameter(Mandatory = $false)]
         [switch] $BeVerbose
     )
 
