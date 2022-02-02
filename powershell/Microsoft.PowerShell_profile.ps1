@@ -75,6 +75,49 @@ Function Execute-7zipAllDirectories ()
     Set-Location -Path $PreviousCurrentWorkingDirectory
 }
 
+#f
+Function Find-Directory ()
+{
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory) = $true]
+        [string] $KeyWord,
+
+        [Parameter(Mandatory) = $false]
+        [string] $RootPath = $PWD.Path,
+
+        [Parameter(Mandatory) = $false],
+        [switch] $BeVerbose
+    )
+
+        If ($BeVerbose.IsPresent) {
+            Get-ChildItem $RootPath -Recurse -Directory | Where-Object {$_.Name -match "${KeyWord}"}
+        } Else {
+            Get-ChildItem $RootPath -Recurse -Directory -ErrorAction SilentlyContinue | Where-Object {$_.PSIsContainer -eq $true -and $_.Name -match "${KeyWord}"}
+        }
+}
+
+Function Find-File ()
+{
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory) = $true]
+        [string] $KeyWord,
+
+        [Parameter(Mandatory) = $false]
+        [string] $RootPath = $PWD.Path,
+
+        [Parameter(Mandatory) = $false],
+        [switch] $BeVerbose
+    )
+
+        If ($BeVerbose.IsPresent) {
+            Get-ChildItem $RootPath -Recurse -File | Where-Object {$_.Name -match "${KeyWord}"}
+        } Else {
+            Get-ChildItem $RootPath -Recurse -File -ErrorAction SilentlyContinue | Where-Object {$_.PSIsContainer -eq $true -and $_.Name -match "${KeyWord}"}
+        }
+}
+
 #g
 #@see https://sid-500.com/2019/07/30/powershell-retrieve-list-of-domain-computers-by-operating-system/
 Function Get-ADComputerClientList ()
