@@ -20,7 +20,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'szw/vim-tags'
 Plugin 'scrooloose/nerdtree'
-Plugin 'jq'
+" Plugin 'vim-jq'
 " Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-markdown'
 " ==== javascript
