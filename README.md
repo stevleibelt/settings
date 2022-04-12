@@ -1,21 +1,12 @@
-# settings
+# Settings
 
-settings and dot files
+This repository contains my settings and dot files.
 
-# install
+The current change log can be found [here](CHANGELOG.md).
+
+# Install
 
 * symlink directories or files where needed
-
-# todo
-
-* create a `setup.sh` file for each first level sub directory
-    * it should take the following arguments: `install`, `uninstall` and `status`
-    * `install` -> install the setting
-    * `status` -> show current state (installed or not)
-    * `uninstall` -> uninstall the setting
-* create an installer or updater (remove all softlinks to <path> and recall installer)
-    * check each first level sub directory if it contains a "setup.sh"
-    * if exists, ask user if it should be installed and call it with "setup.sh install"
 
 ```
 # git
