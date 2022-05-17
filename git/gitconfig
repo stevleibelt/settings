@@ -1,9 +1,12 @@
 #@see
-# * https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
+# https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
+# https://git-scm.com/docs/git-config
 
-[user]
-    name    = stevleibelt
-    email   = stev@leibelt.de
+#Removed since we now include this file into our local gitconfig
+# by using setup.sh
+#[user]
+#    name    = stevleibelt
+#    email   = stev@leibelt.de
 
 [color]
     ui          = auto
