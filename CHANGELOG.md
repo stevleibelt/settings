@@ -25,7 +25,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Added this changelog
+* Added `git/setup.sh`
+* Added `merge-and-squash` as git alias
 
 ### Changed
 
+* Commented out `[user]` section in `git/config` since this base config should be included now
 * Moved not maintained `install.sh` into [bin](bin/)

@@ -147,6 +147,7 @@
     log-tail                    = !git log | tail
 
     #m
+    merge-and-squash = merge --squash
     merge-latest-version-tag    = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
     merge-with-the-upstream-master  = merge upstream/master
 
