@@ -9,7 +9,7 @@
 
 function _main () {
     local CURRENT_SCRIPT_PATH=$(cd $(dirname "${BASH_SOURCE[0]}"); pwd)
-    local USER_GITCONFIG_FILE_PATH="${HOME}/.gitconfig"
+    local USER_GITCONFIG_FILE_PATH="${HOME}.gitconfig"
 
     if [[ -z ${WINDIR} ]];
     then
@@ -17,7 +17,14 @@ function _main () {
         local LINE_TO_ADD_TO_USER_GITCONFIG_FILE="    path = ${CURRENT_SCRIPT_PATH}/gitconfig"
     else
         #we are on a git-on-windows machine
-        local LINE_TO_ADD_TO_USER_GITCONFIG_FILE="    path = %(prefix)//${CURRENT_SCRIPT_PATH}/gitconfig"
+        #we want to replace
+        #   >>/c/Users/<username>/<<
+        #with
+        #   >>c:/Users/<username>/<<
+
+        #contains something like >>c<<
+        local CURRENT_DEVICE_CHARACTER="${CURRENT_SCRIPT_PATH:1:1}"
+        local LINE_TO_ADD_TO_USER_GITCONFIG_FILE="    path = ${CURRENT_DEVICE_CHARACTER}:${CURRENT_SCRIPT_PATH:2}/gitconfig"
     fi
 
     if [[ ! -f "${USER_GITCONFIG_FILE_PATH}" ]];
