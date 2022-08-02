@@ -144,6 +144,7 @@
     log-local                   = !git log-oneline ORIG_HEAD.. --stat --no-merges
     #@todo find better naming - figure out what it dues
     log-oneline                 = !git log --pretty=oneline --abbrev-commit --graph
+    log-path                    = "!f() { git log --relative=${1:-.}; }; f"
     log-tail                    = !git log | tail
 
     #m
