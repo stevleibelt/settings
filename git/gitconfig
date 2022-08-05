@@ -129,6 +129,8 @@
     list-local-branches                     = branch -l
     list-local-merged-branches              = branch --merged
     list-not-merged-branches                = branch --no-merged
+    #@see: https://opensource.com/article/22/8/delete-local-reference-remote-branch-git - 20220805T14:00:00
+    list-local-branches-to-prune            = remote prune origin --dry-run
     list-remote-branches                    = branch -r
     list-remote-branches-in-detail          = ls-remote --heads origin
     list-remote-merged-branches             = branch -r --merged
@@ -156,6 +158,8 @@
     optimize-git-objects    = gc --aggressive
 
     #p
+    #@see: https://opensource.com/article/22/8/delete-local-reference-remote-branch-git - 20220805T14:00:30
+    prune-origin-deleted-local-branches = remote prune origin
     #pull-from-current-head  = pull origin --no-ff
     pull-from-current-head  = "!f() { CURRENT_BRANCH_NAME=$(git list-current-branch); git pull origin ${CURRENT_BRANCH_NAME}; }; f"
     #push-to-current-head  = push -u origin HEAD
