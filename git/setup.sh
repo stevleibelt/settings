@@ -9,7 +9,7 @@
 
 function _main () {
     local CURRENT_SCRIPT_PATH=$(cd $(dirname "${BASH_SOURCE[0]}"); pwd)
-    local USER_GITCONFIG_FILE_PATH="${HOME}.gitconfig"
+    local USER_GITCONFIG_FILE_PATH="${HOME}/.gitconfig"
 
     if [[ -z ${WINDIR} ]];
     then
