@@ -21,12 +21,12 @@ filetype plugin indent on
 
 " begin of indentation settings
 " set smartindent
-" treat all tabs as spaces
+" convert all tabs to spaces
 set expandtab
-" set tab witdh
-set tabstop=4
-" set the tab width for auto indentation
-set shiftwidth=4
+" show existing tabs with 2 spaces width
+set tabstop=2
+" when indenting with `>`, use 2 spaces width
+set shiftwidth=2
 " identify open and clse brace positions
 set showmatch
 " set limit for line width - working for vim >= 7.3
