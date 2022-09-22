@@ -35,7 +35,7 @@
     exludesfiles    = ~/.gitignore.global
     whitespaces     = trailing-space, space-before-tab
     pager           = less -RSX
-    edit            = vim
+    editor          = vi
     #safecrlf       = true
     #autocrlf       = false
 
@@ -51,6 +51,9 @@
 
 [grep]
     extendedRegexp  = true
+
+[init]
+    defaultBranch   = main
 
 [log]
     #abbrevCommit   = true
