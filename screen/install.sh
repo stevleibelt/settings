@@ -6,7 +6,7 @@
 # @author: stev leibelt
 ####
 
-function _install ()
+function _main ()
 {
     if [[ ! -f /usr/bin/screen ]];
     then
@@ -29,4 +29,5 @@ function _install ()
     fi
 }
 
-_install
+_main ${@}
+
