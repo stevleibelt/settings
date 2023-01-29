@@ -10,13 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### To Add
 
 * create a `setup.sh` file for each first level sub directory
-    * it should take the following arguments: `install`, `uninstall` and `status`
-    * `install` -> install the setting
-    * `status` -> show current state (installed or not)
-    * `uninstall` -> uninstall the setting
+  * it should take the following arguments: `install`, `uninstall` and `status`
+  * `install` -> install the setting
+  * `status` -> show current state (installed or not)
+  * `uninstall` -> uninstall the setting
 * create an installer or updater (remove all softlinks to <path> and recall installer)
-    * check each first level sub directory if it contains a "setup.sh"
-    * if exists, ask user if it should be installed and call it with "setup.sh install"
+  * check each first level sub directory if it contains a "setup.sh"
+  * if exists, ask user if it should be installed and call it with "setup.sh install"
 
 ### To Change
 
