@@ -31,24 +31,24 @@ ipv6 {
 }
 
 cpu_temperature 0 {
-    format = "cpu [ %degrees C ]"
+    format = " cpu [ %degrees C ]"
     path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp1_input"
     max_threshold = "55"
     format_above_threshold = "!cpu [ %degrees C ]"
 }
 
 ethernet enp4s0f3u1u1 {
-    format_up = "d-e [%ip | %speed]"
+    format_up = " d-e [%ip | %speed]"
     format_down = "!-e"
 }
 
 ethernet enp2s0 {
-    format_up = "e [%ip | %speed]"
+    format_up = " e [%ip | %speed]"
     format_down = "!e"
 }
 
 wireless wlp3s0 {
-    format_up = "w [%essid: %ip | %bitrate |%quality]"
+    format_up = " w [%essid: %ip | %bitrate |%quality]"
     format_down = "!w"
 }
 
@@ -59,20 +59,20 @@ battery 0 {
 }
 
 disk "/" {
-    format = "d [ %free f | %total t ]"
+    format = " d [ %free f | %total t ]"
     low_threshold = "5"
     format_below_threshold = "!d [ %free f | %total t ]"
 }
 
 load {
-    format = "l [ %1min %5min %15min ]"
+    format = " l [ %1min %5min %15min ]"
     max_threshold = 90
     format_above_threshold = "!l [ %1min %5min %15min ]"
 }
 
 memory {
-    #format = "m [ %free f | %available a ]"
-    format = "m [ %free f | %total t ]"
+    #format = " m [ %free f | %available a ]"
+    format = " m [ %free f | %total t ]"
     threshold_degraded = "10%"
     #format_degraded = "!m [ %free f | %available a ]"
     format_degraded = "!m [ %free f | %total t ]"
