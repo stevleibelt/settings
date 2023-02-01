@@ -4,10 +4,10 @@
 function _main () {
   local PATH_TO_THIS_SCRIPT=$(cd $(dirname "${0}"); pwd)
 
-  ln -s "${PATH_TO_THIS_SCRIPT}/vim" ~/.vim
-  ln -s "${PATH_TO_THIS_SCRIPT}/.vimrc" ~/.vimrc
+  ln -f -s "${PATH_TO_THIS_SCRIPT}/.vim" ~/.vim
+  ln -f -s "${PATH_TO_THIS_SCRIPT}/.vimrc" ~/.vimrc
 
-  updateVimBundlesAndPluginsWithVundle
+  echo ":: You have to call >>updateVimBuindesAndPluginsWithVundle<< on your own."
 }
 
 _main ${@}
