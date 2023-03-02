@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Added this changelog
 * Added `git/setup.sh`
 * Added `merge-and-squash` as git alias
+* Added [btop](btop)
 
 ### Changed
 
