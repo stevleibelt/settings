@@ -104,26 +104,29 @@
     #c
     create-branch-from-current-branch      = "!f() { git checkout -b $1; git push --set-upstream origin $1; }; f"
     create-branch-from-master              = "!f() { git checkout --no-track origin/master -b $1; git push --set-upstream origin $1; }; f"
+    create-branch-from-main              = "!f() { git checkout --no-track origin/main -b $1; git push --set-upstream origin $1; }; f"
     create-branch-from-origin              = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
     checkout-as-patch                   = checkout -p
 
     #d
     diff-to-last-commit = diff HEAD~  #git show should also work
     diff-to-origin-master = diff ..origin/master    #@see: https://opensource.com/article/19/2/git-terminology
+    diff-to-origin-main = diff ..origin/main    #@see: https://opensource.com/article/19/2/git-terminology
     #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
-    delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|develop' | xargs -n 1 git branch -d; }; f"
-    delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
+    delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|main\\|develop' | xargs -n 1 git branch -d; }; f"
+    delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|main\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
     #@todo find better naming
     delete-all-marked-files = !git ls-files -d -z | xargs -0 git-rm && git status
-    #delete-already-merged-local-branches   = !git branch --merged origin/master | grep -v 'master' | xargs -n 1 git branch -d
+    #delete-already-merged-local-branches   = !git branch --merged origin/master | grep -v 'master\|main' | xargs -n 1 git branch -d
     #delete-branches-merged-into-master     = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
+    #delete-branches-merged-into-main     = !git branch --merged main | grep -v 'main$' | xargs git branch -d && git remote prune origin
 
     display-tags-in-log         = !git log --oneline --decorate --graph
 
     duff                    = diff  #praise to good of simpsons
 
     #l
-    #list-all-already-merged-local-branches = !git branch --merged origin/master | grep -v 'master'
+    #list-all-already-merged-local-branches = !git branch --merged origin/master | grep -v 'master\|main'
     list-all-branches-in-detail             = branch -avv
     list-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
     list-latest-commit-message  = !git log | head | grep '^  '
@@ -156,6 +159,7 @@
     merge-and-squash = merge --squash
     merge-latest-version-tag    = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
     merge-with-the-upstream-master  = merge upstream/master
+    merge-with-the-upstream-main  = merge upstream/main
 
     #o
     optimize-git-objects    = gc --aggressive
@@ -168,11 +172,14 @@
     #push-to-current-head  = push -u origin HEAD
     push-to-current-head  = push origin
     #push-to-master  = push -u origin master
+    #push-to-main  = push -u origin main
 
     #r
     rebase-with-the-upstream-master = rebase upstream/master
+    rebase-with-the-upstream-main = rebase upstream/main
     remote-local-changes = clean -f -d
     reset-to-origin-master  = reset --hard origin/master
+    reset-to-origin-main  = reset --hard origin/main
 
     #s
     search-term-in-branch-list              = "!f() { git branch -a | grep -i $1; }; f"
