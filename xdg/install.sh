@@ -5,26 +5,26 @@ function _main ()
 {
   local PATH_TO_THIS_SCRIPT=$(cd $(dirname "${0}"); pwd)
 
-  if [[ ! -d ~/.config ]];
+  if [[ ! -d "${HOME}/.config" ]];
   then
-    echo "   creating ~/.config"
-    /usr/bin/mkdir -p ~/.config/
+    echo "   creating "${HOME}/.config"
+    /usr/bin/mkdir -p "${HOME}/.config"
   fi
 
-  if [[ -f ~/.config/user-dirs.locale ]];
+  if [[ -f "${HOME}/.config/user-dirs.locale" ]];
   then
-    echo "   removing ~/config/user-dirs.locale"
-    rm -fr ~/.config/user-dirs.locale
+    echo "   removing ${HOME}/config/user-dirs.locale"
+    rm -fr "${HOME}/.config/user-dirs.locale"
   fi
 
-  if [[ -f ~/.config/user-dirs.dirs ]];
+  if [[ -f "${HOME}/.config/user-dirs.dirs" ]];
   then
-    echo "   removing ~/config/user-dirs.dirs"
-    rm -fr ~/.config/user-dirs.dirs
+    echo "   removing ${HOME}/config/user-dirs.dirs"
+    rm -fr "${HOME}/.config/user-dirs.dirs"
   fi
 
-  ln -f -s "${PATH_TO_THIS_SCRIPT}/userDirs/user-dirs.locale" ~/.config/user-dirs.locale
-  ln -f -s "${PATH_TO_THIS_SCRIPT}/userDirs/user-dirs.dirs" ~/.config/user-dirs.dirs
+  ln -f -s "${PATH_TO_THIS_SCRIPT}/userDirs/user-dirs.locale" "${HOME}/.config/user-dirs.locale"
+  ln -f -s "${PATH_TO_THIS_SCRIPT}/userDirs/user-dirs.dirs" "{HOME}/.config/user-dirs.dirs"
 
   xdg-settings set default-web-browser firefox.desktop
   xdg-settings set default-url-scheme-handler mailto thunderbird.desktop
