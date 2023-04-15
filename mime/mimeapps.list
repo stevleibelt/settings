@@ -1,0 +1,17 @@
+[Default Applications]
+x-scheme-handler/tg=userapp-Telegram Desktop-Q89JW1.desktop
+text/html=firefox.desktop
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+x-scheme-handler/about=firefox.desktop
+x-scheme-handler/unknown=firefox.desktop
+x-scheme-handler/mailto=thunderbird.desktop
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
+x-scheme-handler/fleet=jetbrains-fleet.desktop
+application/pdf=mupdf.desktop
+image/jpeg=geeqie.desktop
+image/webp=geeqie.desktop
+inode/directory=codium.desktop;pcmanfm.desktop;ranger.desktop;
+
+[Added Associations]
+x-scheme-handler/tg=userapp-Telegram Desktop-E6NVQ1.desktop;userapp-Telegram Desktop-Q89JW1.desktop;
