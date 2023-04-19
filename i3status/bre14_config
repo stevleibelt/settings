@@ -53,7 +53,7 @@ wireless wlp3s0 {
 }
 
 battery 0 {
-    format = "[ %status %percentage %remaining ]"
+    format = "[ %status %percentage %remaining %emptytime %consumption ]"
     path = "/sys/class/power_supply/BAT0/uevent"
     low_threshold = 10
 }
