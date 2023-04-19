@@ -1,4 +1,5 @@
 #!/bin/bash
+# ref: https://i3wm.org/i3status/manpage.html
 ####
 
 function _main () {
