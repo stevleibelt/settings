@@ -1,6 +1,6 @@
-#@see
-# https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
-# https://git-scm.com/docs/git-config
+# ref:
+#   https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
+#   https://git-scm.com/docs/git-config
 
 #Removed since we now include this file into our local gitconfig
 # by using setup.sh
@@ -39,7 +39,7 @@
     #safecrlf       = true
     #autocrlf       = false
 
-#@see: https://superuser.com/a/706286
+# ref: https://superuser.com/a/706286
 [diff "bin"]
     textconv = hexdump -v -C
 
@@ -89,7 +89,7 @@
 
 [alias]
     #alphabetically ordered and separated with empty lines
-    #@see: https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases
+    # ref: https://git-scm.com/book/en/v2/Git-Basics-Git-Aliases
 
     #a
     add-all-files           = add -A
@@ -110,8 +110,8 @@
 
     #d
     diff-to-last-commit = diff HEAD~  #git show should also work
-    diff-to-origin-master = diff ..origin/master    #@see: https://opensource.com/article/19/2/git-terminology
-    diff-to-origin-main = diff ..origin/main    #@see: https://opensource.com/article/19/2/git-terminology
+    diff-to-origin-master = diff ..origin/master    # ref: https://opensource.com/article/19/2/git-terminology
+    diff-to-origin-main = diff ..origin/main    # ref: https://opensource.com/article/19/2/git-terminology
     #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
     delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|main\\|develop' | xargs -n 1 git branch -d; }; f"
     delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|main\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
@@ -135,12 +135,12 @@
     list-local-branches                     = branch -l
     list-local-merged-branches              = branch --merged
     list-not-merged-branches                = branch --no-merged
-    #@see: https://opensource.com/article/22/8/delete-local-reference-remote-branch-git - 20220805T14:00:00
+    # ref: https://opensource.com/article/22/8/delete-local-reference-remote-branch-git - 20220805T14:00:00
     list-local-branches-to-prune            = remote prune origin --dry-run
     list-remote-branches                    = branch -r
     list-remote-branches-in-detail          = ls-remote --heads origin
     list-remote-merged-branches             = branch -r --merged
-    #@see: http://stevenharman.net/git-clean-delete-already-merged-branches
+    # ref: http://stevenharman.net/git-clean-delete-already-merged-branches
 
     #unknown :->
     lint-uncommited-php-files   = ! git status --porcelain | /bin/grep -e '^.\\(M\\|?\\).*\\.php$' | awk '{print $2}' | xargs -L 1 php -l
@@ -165,7 +165,7 @@
     optimize-git-objects    = gc --aggressive
 
     #p
-    #@see: https://opensource.com/article/22/8/delete-local-reference-remote-branch-git - 20220805T14:00:30
+    # ref: https://opensource.com/article/22/8/delete-local-reference-remote-branch-git - 20220805T14:00:30
     prune-origin-deleted-local-branches = remote prune origin
     #pull-from-current-head  = pull origin --no-ff
     pull-from-current-head  = "!f() { CURRENT_BRANCH_NAME=$(git list-current-branch); git pull origin ${CURRENT_BRANCH_NAME}; }; f"
@@ -189,7 +189,10 @@
     show-changes-in-cached  = diff --cached
     show-changed-status     = diff --stat
     show-current-checkout   = describe --all
-    show-only-file-names    = "!f() { git show --pretty=\"\" --name-only ${1}; }; f"    #@see: https://stackoverflow.com/a/424142
+    show-only-file-names    = "!f() { git show --pretty=\"\" --name-only ${1}; }; f"    # ref: https://stackoverflow.com/a/424142
+
+    # ref: https://stackoverflow.com/a/44749114 - 20230428
+    sign-last-commit = commit --amend -S
 
     #t
     #@todo find better naming
