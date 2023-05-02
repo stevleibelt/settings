@@ -2,12 +2,6 @@
 #   https://github.com/MattKetmo/dotfiles/blob/master/git/gitconfig
 #   https://git-scm.com/docs/git-config
 
-#Removed since we now include this file into our local gitconfig
-# by using setup.sh
-#[user]
-#    name    = stevleibelt
-#    email   = stev@leibelt.de
-
 [color]
     ui          = auto
     diff        = auto
@@ -60,7 +54,7 @@
 
 [merge]
     conflictStyle   = diff3
-	tool = meld
+	  tool = meld
 
 [mergetool]
     #todo
@@ -82,7 +76,7 @@
     #default = upstream
 
 [pull]
-	rebase = false
+    rebase = false
     # be careful here
     # do not pull --no-rebase over a local line containing a true merge
     #rebase = true
@@ -98,20 +92,18 @@
     add-as-patch            = add --patch
 
     #b
-    #@todo find better naming - figure out what it does
-    branch-serve-local  = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
 
     #c
-    create-branch-from-current-branch      = "!f() { git checkout -b $1; git push --set-upstream origin $1; }; f"
-    create-branch-from-master              = "!f() { git checkout --no-track origin/master -b $1; git push --set-upstream origin $1; }; f"
-    create-branch-from-main              = "!f() { git checkout --no-track origin/main -b $1; git push --set-upstream origin $1; }; f"
-    create-branch-from-origin              = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
-    checkout-as-patch                   = checkout -p
+    create-branch-from-current-branch = "!f() { git checkout -b $1; git push --set-upstream origin $1; }; f"
+    create-branch-from-master         = "!f() { git checkout --no-track origin/master -b $1; git push --set-upstream origin $1; }; f"
+    create-branch-from-main           = "!f() { git checkout --no-track origin/main -b $1; git push --set-upstream origin $1; }; f"
+    create-branch-from-origin         = "!f() { git fetch origin && git checkout -b $1 origin/$1; git pull origin $1; git push --set-upstream origin $1; }; f"
+    checkout-as-patch                 = checkout -p
 
     #d
-    diff-to-last-commit = diff HEAD~  #git show should also work
+    diff-to-last-commit   = diff HEAD~  #git show should also work
     diff-to-origin-master = diff ..origin/master    # ref: https://opensource.com/article/19/2/git-terminology
-    diff-to-origin-main = diff ..origin/main    # ref: https://opensource.com/article/19/2/git-terminology
+    diff-to-origin-main   = diff ..origin/main    # ref: https://opensource.com/article/19/2/git-terminology
     #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
     delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|main\\|develop' | xargs -n 1 git branch -d; }; f"
     delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|main\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
@@ -121,45 +113,40 @@
     #delete-branches-merged-into-master     = !git branch --merged master | grep -v 'master$' | xargs git branch -d && git remote prune origin
     #delete-branches-merged-into-main     = !git branch --merged main | grep -v 'main$' | xargs git branch -d && git remote prune origin
 
-    display-tags-in-log         = !git log --oneline --decorate --graph
-
-    duff                    = diff  #praise to good of simpsons
+    display-tags-in-log = !git log --oneline --decorate --graph
 
     #l
     #list-all-already-merged-local-branches = !git branch --merged origin/master | grep -v 'master\|main'
-    list-all-branches-in-detail             = branch -avv
-    list-current-branch                     = !git status | grep 'On branch ' | cut -d' ' -f3
+    list-all-branches-in-detail = branch -avv
+    list-current-branch         = !git status | grep 'On branch ' | cut -d' ' -f3
     list-latest-commit-message  = !git log | head | grep '^  '
     list-latest-version-tag     = !git tag -l | sort -V | tail -n1
     list-latest-version-tags    = !git tag -l | sort -V | tail
-    list-local-branches                     = branch -l
-    list-local-merged-branches              = branch --merged
-    list-not-merged-branches                = branch --no-merged
+    list-merged-branches        = branch --merged
+    list-not-merged-branches    = branch --no-merged
     # ref: https://opensource.com/article/22/8/delete-local-reference-remote-branch-git - 20220805T14:00:00
-    list-local-branches-to-prune            = remote prune origin --dry-run
-    list-remote-branches                    = branch -r
-    list-remote-branches-in-detail          = ls-remote --heads origin
-    list-remote-merged-branches             = branch -r --merged
+    list-local-branches-to-prune    = remote prune origin --dry-run
+    list-remote-branches-in-detail  = ls-remote --heads origin
+    list-remote-merged-branches     = branch -r --merged
     # ref: http://stevenharman.net/git-clean-delete-already-merged-branches
 
-    #unknown :->
     lint-uncommited-php-files   = ! git status --porcelain | /bin/grep -e '^.\\(M\\|?\\).*\\.php$' | awk '{print $2}' | xargs -L 1 php -l
 
     log-head                    = !git log | head
-    #@todo find better naming - figure out what it dues
+    #@todo find better naming - figure out what it does in detail
     log-history                 = !git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --date-order
-    #@todo find better naming - figure out what it dues
+    #@todo find better naming - figure out what it does in detail
     log-local                   = !git log-oneline ORIG_HEAD.. --stat --no-merges
-    #@todo find better naming - figure out what it dues
+    #@todo find better naming - figure out what it does in detail
     log-oneline                 = !git log --pretty=oneline --abbrev-commit --graph
     log-path                    = "!f() { git log --relative=${1:-.}; }; f"
     log-tail                    = !git log | tail
 
     #m
-    merge-and-squash = merge --squash
-    merge-latest-version-tag    = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
+    merge-and-squash          = merge --squash
+    merge-latest-version-tag  = "!f() { git fetch origin && LATEST_VERSION_TAG=$(git tag -l | sort -V | tail -n1) && git merge --no-ff ${LATEST_VERSION_TAG}; }; f"
     merge-with-the-upstream-master  = merge upstream/master
-    merge-with-the-upstream-main  = merge upstream/main
+    merge-with-the-upstream-main    = merge upstream/main
 
     #o
     optimize-git-objects    = gc --aggressive
@@ -176,10 +163,10 @@
 
     #r
     rebase-with-the-upstream-master = rebase upstream/master
-    rebase-with-the-upstream-main = rebase upstream/main
-    remote-local-changes = clean -f -d
-    reset-to-origin-master  = reset --hard origin/master
-    reset-to-origin-main  = reset --hard origin/main
+    rebase-with-the-upstream-main   = rebase upstream/main
+    remote-local-changes            = clean -f -d
+    reset-to-origin-main            = reset --hard origin/main
+    reset-to-origin-master          = reset --hard origin/master
 
     #s
     search-term-in-branch-list              = "!f() { git branch -a | grep -i $1; }; f"
@@ -193,6 +180,8 @@
 
     # ref: https://stackoverflow.com/a/44749114 - 20230428
     sign-last-commit = commit --amend -S
+    
+    status-short-branch = status -sb
 
     #t
     #@todo find better naming
@@ -204,4 +193,4 @@
     undo        = reset --soft HEAD^
     unmerge     = reset --merge ORIG_HEAD
     unstage     = reset HEAD --
-    unstash = stash pop
+    unstash     = stash pop
