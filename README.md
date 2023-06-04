@@ -20,4 +20,12 @@ ln -s <path>/<conf>.conf $HOME/.config/i3status/config
 
 # abcde
 ln -s <path>/abcde/.abcde.conf $HOME/.abcde.conf
+
+# gnome-terminal-colors
+
+git submodule init
+git submodule update
+bash ./gnome-terminal-colors/install.sh
+# 66 - color schema
+# 1 - use dir colors
 ```
