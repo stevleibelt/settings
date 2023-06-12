@@ -1,9 +1,0 @@
-#THIS IS INCOMPLETE
-#@see: https://wiki.archlinux.org/title/Xterm
-#@see: https://wiki.archlinux.org/title/X_resources
-#@see: https://man.archlinux.org/man/xterm.1#RESOURCES
-#we use a * to match UXTerm. and XTerm settings at once
-#*.vt100.reverseVideo: true #switch background and foreground color
-*.vt100.faceName: Terminus Mono:size=10:antialias=false #change font
-*.vt100.saveLines: 4096 #change line history from 1024 to 4096
-*.vt100.locale: true  #enforce locale usage
