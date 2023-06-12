@@ -3,11 +3,13 @@
 
 function _main () 
 {
-  local PATH_TO_THIS_SCRIPT=$(cd $(dirname "${0}"); pwd)
+  local PATH_TO_THIS_SCRIPT
+
+  PATH_TO_THIS_SCRIPT=$(cd $(dirname "${0}"); pwd)
 
   if [[ ! -d "${HOME}/.config" ]];
   then
-    echo "   creating "${HOME}/.config"
+    echo "   creating >>${HOME}/.config<<"
     /usr/bin/mkdir -p "${HOME}/.config"
   fi
 
@@ -31,5 +33,5 @@ function _main ()
   xdg-user-dirs-update
 }
 
-_main ${@}
+_main "${@}"
 
