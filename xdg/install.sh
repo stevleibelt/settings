@@ -26,7 +26,7 @@ function _main ()
   fi
 
   ln -f -s "${PATH_TO_THIS_SCRIPT}/userDirs/user-dirs.locale" "${HOME}/.config/user-dirs.locale"
-  ln -f -s "${PATH_TO_THIS_SCRIPT}/userDirs/user-dirs.dirs" "{HOME}/.config/user-dirs.dirs"
+  ln -f -s "${PATH_TO_THIS_SCRIPT}/userDirs/user-dirs.dirs" "${HOME}/.config/user-dirs.dirs"
 
   xdg-settings set default-web-browser firefox.desktop
   xdg-settings set default-url-scheme-handler mailto thunderbird.desktop
