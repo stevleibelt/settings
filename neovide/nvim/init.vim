@@ -1,0 +1,1 @@
+/home/sl90fyqo/software/source/com/github/stevleibelt/settings/vim/.vimrc
