@@ -59,6 +59,12 @@ set autochdir
 set wildmenu
 set wildmode=list:longest,full
 " end of wild menu configuration (used for tab command autocompletion)
+" set split window behavior ()
+" ref: https://stackoverflow.com/a/22614451 - 20230817
+" split new opened file below current when :vs foo.bar
+set splitbelow
+" split new opened file right current when :vsp foo.bar
+set splitright
 " spell checking for us english language
 set spelllang=en_us
 " useuznix as standart file type
