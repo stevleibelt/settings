@@ -20,6 +20,7 @@ order += "ethernet enp2s0"
 order += "ethernet enp4s0f3u1u1"
 order += "memory"
 order += "disk /"
+order += "disk /tmp"
 order += "cpu_temperature 0"
 order += "load"
 order += "battery all"
@@ -64,6 +65,12 @@ battery all {
 
 disk "/" {
   format = " d [ %free f | %total t ]"
+  low_threshold = "5"
+  format_below_threshold = " !d [ %free f | %total t ]"
+}
+
+disk "/tmp" {
+  format = " tmp [ %free f | %total t ]"
   low_threshold = "5"
   format_below_threshold = " !d [ %free f | %total t ]"
 }
