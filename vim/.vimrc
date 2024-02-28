@@ -1,6 +1,12 @@
 " set compatibility mode off
 set nocompatible
 
+" ref: https://stackoverflow.com/a/30691754
+" unnamed: Linux-Clipboard buffer for CTRL+C/CTRL+V
+" unnamedplus: Linux-Clipboard buffer for (mouse/X) selection
+" ^=: prepends strings
+set clipboard^=unnamed,unnamedplus
+
 " add mapping of CTRL+h and CTRL+l to move between windows
 " @see: https://stackoverflow.com/a/16700959
 " @see: https://www.unix.com/unix-for-advanced-and-expert-users/165129-vimdiff-jump-other-file-switch-windows.html
