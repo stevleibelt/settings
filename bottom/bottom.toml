@@ -60,7 +60,7 @@ battery = true
 # Show memory values in the processes widget as values by default
 #mem_as_value = false
 # Show tree mode by default in the processes widget.
-tree = true
+#tree = true
 # Shows an indicator in table widgets tracking where in the list you are.
 #show_table_scroll_position = false
 # Show processes as their commands by default in the process widget.
@@ -76,7 +76,7 @@ tree = true
 # Shows GPU(s) memory
 enable_gpu_memory = true
 # Shows cache and buffer memory
-#enable_cache_memory = false
+enable_cache_memory = true
 # How much data is stored at once in terms of time.
 #retention = "10m"
 
@@ -156,7 +156,29 @@ enable_gpu_memory = true
 #  [[row.child]]
 #    type="proc"
 #    default=true
-
+[[row]]
+  [[row.child]]
+    ratio=2
+    [[row.child.child]]
+      type="cpu"
+    [[row.child.child]]
+      type="mem"
+    [[row.child.child]]
+      type="net"
+    [[row.child.child]]
+      type="batt"
+  [[row.child]]
+    ratio=1
+    [[row.child.child]]
+      ratio=2
+      type="proc"
+      default=true
+    [[row.child.child]]
+      ratio=1
+      type="disk"
+    [[row.child.child]]
+      ratio=1
+      type="temp"
 
 # Filters - you can hide specific temperature sensors, network interfaces, and disks using filters.  This is admittedly
 # a bit hard to use as of now, and there is a planned in-app interface for managing this in the future:
