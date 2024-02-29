@@ -12,7 +12,7 @@
 # Whether to use dot markers rather than braille.
 #dot_marker = false
 # The update rate of the application.
-#rate = "1s"
+rate = "3s"
 # Whether to put the CPU legend to the left.
 #left_legend = false
 # Whether to set CPU% on a process to be based on the total CPU or just current usage.
@@ -189,9 +189,10 @@ enable_cache_memory = true
 #case_sensitive = false
 #whole_word = false
 
-#[mount_filter]
-#is_list_ignored = true
+[mount_filter]
+is_list_ignored = true
 #list = ["/mnt/.*", "/boot"]
+list = ["/var/lib/docker/"]
 #regex = true
 #case_sensitive = false
 #whole_word = false
