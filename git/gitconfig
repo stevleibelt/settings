@@ -104,7 +104,7 @@
     diff-to-last-commit   = diff HEAD~  #git show should also work
     diff-to-origin-master = diff ..origin/master    # ref: https://opensource.com/article/19/2/git-terminology
     diff-to-origin-main   = diff ..origin/main    # ref: https://opensource.com/article/19/2/git-terminology
-    #@link: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
+    # ref: https://stackoverflow.com/questions/6127328/how-can-i-delete-all-git-branches-which-have-been-merged
     delete-all-already-merged-local-branches    = "!f() { git branch --merged | grep -v 'master\\|main\\|develop' | xargs -n 1 git branch -d; }; f"
     delete-all-already-merged-remote-branches   = "!f() { git branch -r --merged | grep -v 'master\\|main\\|develop' | sed 's/origin\\//:/' | xargs -n 1 git push origin; }; f"
     #@todo find better naming
@@ -114,6 +114,10 @@
     #delete-branches-merged-into-main     = !git branch --merged main | grep -v 'main$' | xargs git branch -d && git remote prune origin
 
     display-tags-in-log = !git log --oneline --decorate --graph
+
+    #f
+    # ref: https://www.30secondsofcode.org/git/s/find-merge-commit/
+    find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
 
     #l
     #list-all-already-merged-local-branches = !git branch --merged origin/master | grep -v 'master\|main'
