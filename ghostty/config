@@ -1,0 +1,4 @@
+cursor-style = block
+shell-integration-features = no-cursor
+theme = zenburned
+window-decoration = false
