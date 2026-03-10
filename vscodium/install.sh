@@ -2,7 +2,9 @@
 ####
 
 function _main () {
-  local PATH_TO_THIS_SCRIPT=$(cd $(dirname "${0}"); pwd)
+  local PATH_TO_THIS_SCRIPT
+
+  PATH_TO_THIS_SCRIPT=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
   for CURRENT_EXTENSION_LINE in $(cat "${PATH_TO_THIS_SCRIPT}/my_extension_list.txt");
   do
@@ -11,5 +13,4 @@ function _main () {
   done
 }
 
-_main ${@}
-
+_main "${@}"
